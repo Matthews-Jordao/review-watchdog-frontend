@@ -1,0 +1,75 @@
+.audience-cards {
+  padding: var(--space-20) 0;
+  background: var(--bg-primary);
+}
+
+.audience-cards__content {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--space-8);
+  max-width: 1000px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.audience-cards__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-white);
+  padding: var(--space-8);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  flex: 1;
+  min-width: 300px;
+  max-width: 450px;
+}
+
+.audience-cards__card-icon {
+  font-size: var(--text-5xl);
+  margin-bottom: var(--space-4);
+  flex-shrink: 0;
+}
+
+.audience-cards__card-title {
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-2xl);
+}
+
+.audience-cards__card-description {
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.audience-cards__card-btn {
+  background: var(--primary-blue);
+  color: var(--text-white);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-base);
+  font-weight: var(--font-semibold);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.audience-cards__card-btn:hover {
+  background: var(--primary-blue-hover);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .audience-cards__content {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .audience-cards__card {
+    width: 100%;
+    max-width: 500px;
+  }
+}
