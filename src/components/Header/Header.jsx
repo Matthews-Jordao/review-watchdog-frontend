@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.css';
+import logo from '../../assets/images/logo.svg';
 
 function Header() {
   return (
@@ -7,8 +8,11 @@ function Header() {
       <div className="container">
         <div className="header__content">
           <div className="header__logo">
-            <span className="header__logo-icon">🐕‍🦺</span>
-            <span className="header__logo-text">REVIEW WATCHDOG</span>
+            <img src={logo} alt="Review Watchdog Logo" className="header__logo-icon" />
+            <span className="header__logo-text">
+              <span className="header__logo-text--review">REVIEW</span>
+              <span className="header__logo-text--watchdog">WATCHDOG</span>
+            </span>
           </div>
           
           <nav className="header__nav">
