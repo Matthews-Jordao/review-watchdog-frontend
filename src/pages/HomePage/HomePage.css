@@ -1,0 +1,17 @@
+.homepage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.homepage h1 {
+  color: var(--primary-navy);
+  margin-bottom: var(--space-4);
+}
+
+.homepage p {
+  font-size: var(--text-lg);
+  color: var(--text-secondary);
+}
