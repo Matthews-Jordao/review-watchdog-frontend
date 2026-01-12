@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
 import logo from '../../assets/images/logo.svg';
 
 function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -15,7 +21,26 @@ function Header() {
             </span>
           </div>
           
-          <nav className="header__nav">
+          {/* Desktop Navigation */}
+          <nav className="header__nav header__nav--desktop">
+            <a href="#businesses" className="header__nav-link">For Businesses</a>
+            <a href="#login" className="header__nav-link">Log in</a>
+            <button className="header__cta-btn">Sign Up</button>
+          </nav>
+
+          {/* Mobile Hamburger Button */}
+          <button 
+            className="header__hamburger"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            <span className="header__hamburger-line"></span>
+            <span className="header__hamburger-line"></span>
+            <span className="header__hamburger-line"></span>
+          </button>
+
+          {/* Mobile Navigation */}
+          <nav className={`header__nav header__nav--mobile ${isMobileMenuOpen ? 'header__nav--mobile-open' : ''}`}>
             <a href="#businesses" className="header__nav-link">For Businesses</a>
             <a href="#login" className="header__nav-link">Log in</a>
             <button className="header__cta-btn">Sign Up</button>

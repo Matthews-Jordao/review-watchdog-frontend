@@ -1,3 +1,8 @@
+/* ========================================
+   HEADER COMPONENT STYLES
+   ======================================== */
+
+/* Header Container & Layout */
 .header {
   background-color: var(--primary-navy);
   color: var(--text-white);
@@ -13,7 +18,12 @@
   justify-content: space-between;
   width: 100%;
   padding: 0 100px;
+  position: relative;
 }
+
+/* ========================================
+   HEADER LOGO STYLING
+   ======================================== */
 
 .header__logo {
   display: flex;
@@ -31,7 +41,7 @@
 
 .header__logo-text {
   font-weight: var(--font-extrabold);
-  font-size: var(--text-md);
+  font-size: 20px;
   display: flex;
   flex-direction: column;
   line-height: 1;
@@ -45,10 +55,19 @@
   color: var(--text-white);
 }
 
+/* ========================================
+   DESKTOP NAVIGATION STYLING
+   ======================================== */
+
 .header__nav {
   display: flex;
   align-items: center;
   gap: var(--space-6);
+}
+
+/* Desktop Navigation */
+.header__nav--desktop {
+  display: flex;
 }
 
 .header__nav-link {
@@ -80,25 +99,99 @@
   transform: translateY(-1px);
 }
 
+/* ========================================
+   MOBILE HAMBURGER BUTTON
+   ======================================== */
+
+.header__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.header__hamburger-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-white);
+  transition: all var(--transition-fast);
+}
+
+/* ========================================
+   MOBILE NAVIGATION MENU
+   ======================================== */
+
+.header__nav--mobile {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--primary-navy);
+  flex-direction: column;
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-dropdown);
+  min-width: 200px;
+  border-radius: var(--radius-base);
+  margin-top: var(--space-2);
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: all var(--transition-base);
+  gap: 0;
+}
+
+.header__nav--mobile-open {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  gap: 0;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE
+   ======================================== */
+
 @media (max-width: 768px) {
+  /* Mobile Header Layout */
   .header__content {
     padding: 0 var(--space-4);
+    position: relative;
   }
   
-  .header__nav {
-    gap: var(--space-4);
+  /* Hide Desktop Navigation */
+  .header__nav--desktop {
+    display: none;
   }
   
-  .header__nav-link {
-    font-size: var(--text-sm);
+  /* Show Mobile Hamburger */
+  .header__hamburger {
+    display: flex;
   }
   
-  .header__cta-btn {
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
-  }
-  
-  .header__logo-text {
+  /* Mobile Navigation Links */
+  .header__nav--mobile .header__nav-link {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--primary-navy-dark);
     font-size: var(--text-base);
+    text-align: left;
+    white-space: nowrap;
+  }
+  
+  .header__nav--mobile .header__nav-link:last-of-type {
+    border-bottom: none;
+  }
+  
+  /* Mobile CTA Button */
+  .header__nav--mobile .header__cta-btn {
+    align-self: stretch;
+    margin-top: var(--space-2);
+    text-align: center;
+    justify-content: center;
   }
 }
