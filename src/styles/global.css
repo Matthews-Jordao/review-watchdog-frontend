@@ -21,6 +21,8 @@ html {
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
   scroll-behavior: smooth;
+  background: linear-gradient(180deg, #F7F4EF 0%, #FFFFFF 100%);
+  min-height: 100vh;
 }
 
 /* Remove built-in form typography styles */
@@ -55,12 +57,13 @@ body {
     sans-serif;
   line-height: var(--leading-normal);
   color: var(--text-primary);
-  background-color: var(--bg-primary);
+  background: linear-gradient(180deg, #F7F4EF 0%, #FFFFFF 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
   font-size: var(--text-base);
   font-weight: var(--font-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
 }
 
 /* Typography Base Styles */
