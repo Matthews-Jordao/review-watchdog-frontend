@@ -18,7 +18,7 @@
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-40%);
+    transform: translateX(-50%);
   }
 }
 
@@ -107,8 +107,51 @@
   }
   
   .review-cards-row__card {
-    width: 280px;
-    height: 100px;
+    width: 240px;
+    height: 80px;
     flex-shrink: 0;
+    padding: 10px 16px;
+  }
+  
+  .review-cards-row__card-logo {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .review-cards-row__card-logo img {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .review-cards-row__card-content {
+    min-width: 0;
+    overflow: hidden;
+  }
+  
+  .review-cards-row__card-title {
+    font-size: 12px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+  
+  .review-cards-row__card-subtitle {
+    font-size: 10px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+  
+  .review-cards-row__card-rating {
+    gap: 1px;
+  }
+  
+  .star-icon {
+    width: 12px;
+    height: 12px;
   }
 }
