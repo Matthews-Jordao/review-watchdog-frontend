@@ -1,53 +1,248 @@
+/* ===================================
+   TESTIMONIALS CAROUSEL COMPONENT
+   ================================= */
+
+/* Block: Main testimonials section container */
 .testimonials {
-  padding: var(--space-20) 0;
-  background: var(--primary-navy);
-  color: var(--text-white);
+  padding: 80px 0;
+  background: #0F1F38; /* Navy background as specified */
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.testimonials__content {
+/* Element: Wrapper for navigation and content layout */
+.testimonials__wrapper {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  max-width: 800px;
+  gap: var(--space-4);
+  max-width: 1300px;
   width: 100%;
-  text-align: center;
+  position: relative;
 }
 
+/* Element: Content viewport - shows exactly 3 cards */
+.testimonials__content {
+  width: 1110px; /* 3 cards × 350px + 2 gaps × 16px = 1110px */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Element: Sliding container for all testimonial cards */
+.testimonials__slider {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 16px; /* Fixed gap for consistent spacing */
+  width: fit-content;
+}
+
+/* Element: Individual testimonial card */
 .testimonials__card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.testimonials__card-stars {
-  font-size: var(--text-xl);
-  color: #fbbf24;
-  margin-bottom: var(--space-4);
+  justify-content: space-between;
+  align-items: flex-start; /* Changed from center to flex-start for left alignment */
+  width: 350px; /* Fixed width as specified */
+  height: 200px; /* Fixed height as specified */
   flex-shrink: 0;
+  background: var(--bg-white);
+  padding: var(--space-4);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  text-align: left; /* Changed from center to left */
 }
 
-.testimonials__card-quote {
-  font-size: var(--text-lg);
-  line-height: var(--leading-relaxed);
-  margin-bottom: var(--space-4);
-  color: var(--text-white);
-  flex-grow: 1;
+/* Element: Navigation buttons */
+.testimonials__nav {
+  background: transparent; /* No background, only SVG visible */
+  border: none;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  z-index: 2;
+  padding: 0;
 }
 
-.testimonials__card-author {
-  font-weight: var(--font-semibold);
-  color: var(--primary-blue);
+/* State: Navigation hover effect */
+.testimonials__nav:hover {
+  transform: scale(1.1);
+}
+
+/* State: Navigation click effect during hover */
+.testimonials__nav:hover:active {
+  transform: scale(0.95);
+}
+
+/* Element: Arrow icon inside navigation */
+.testimonials__arrow-icon {
+  width: 48px;
+  height: 48px;
+  transition: transform 0.3s ease;
+}
+
+/* Modifier: Flipped arrow for previous button */
+.testimonials__arrow-icon--flipped {
+  transform: scaleX(-1);
+}
+
+/* State: Arrow scaling on navigation hover */
+.testimonials__nav:hover .testimonials__arrow-icon {
+  transform: scale(1.1);
+}
+
+/* State: Flipped arrow scaling on hover */
+.testimonials__nav:hover .testimonials__arrow-icon--flipped {
+  transform: scaleX(-1) scale(1.1);
+}
+
+/* State: Arrow scaling on navigation click during hover */
+.testimonials__nav:hover:active .testimonials__arrow-icon {
+  transform: scale(0.95);
+}
+
+/* State: Flipped arrow scaling on click during hover */
+.testimonials__nav:hover:active .testimonials__arrow-icon--flipped {
+  transform: scaleX(-1) scale(0.95);
+}
+
+/* Element: Star rating container */
+.testimonials__card-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: var(--space-4);
   flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
+/* Element: Individual star icons */
+.testimonials__card-stars .testimonials__star-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Element: Testimonial quote text */
+.testimonials__card-quote {
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  margin-bottom: var(--space-3);
+  color: #333333;
+  text-align: left; /* Changed from center to left */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  flex: 1;
+  /* Text overflow handling for fixed card height */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Element: Author information container */
+.testimonials__card-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Element: Author avatar container */
+.testimonials__card-avatar {
+  width: 60px; /* As specified */
+  height: 60px; /* As specified */
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Element: Author avatar image */
+.testimonials__card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Element: Author name text */
+.testimonials__card-name {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* Semi-bold as specified */
+  color: #8E8E93; /* Color as specified */
+  font-size: var(--text-sm);
+}
+
+/* ===================================
+   RESPONSIVE STYLES - MOBILE
+   ================================= */
+
+@media (max-width: 968px) {
+  /* Block: Reduced padding for mobile */
+  .testimonials {
+    padding: 60px 0;
+  }
+  
+  /* Element: Vertical layout for mobile */
+  .testimonials__wrapper {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  /* Element: Navigation button positioning */
+  .testimonials__nav {
+    order: 3;
+    position: relative;
+  }
+  
+  /* Modifier: Previous button order */
+  .testimonials__nav--prev {
+    order: 1;
+  }
+  
+  /* Modifier: Next button order */
+  .testimonials__nav--next {
+    order: 3;
+  }
+  
+  /* Element: Full width content on mobile */
+  .testimonials__content {
+    width: 100%;
+    max-width: 90%;
+    order: 2;
+  }
+  
+  /* Element: Vertical slider layout */
+  .testimonials__slider {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  /* Element: Responsive card sizing */
+  .testimonials__card {
+    width: 100%;
+    height: auto;
+    min-height: 180px;
+    padding: var(--space-4);
+  }
+  
+  /* Element: Smaller quote text on mobile */
   .testimonials__card-quote {
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
+    -webkit-line-clamp: 3;
+  }
+  
+  /* Element: Smaller star icons on mobile */
+  .testimonials__card-stars .testimonials__star-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Element: Smaller avatar on mobile */
+  .testimonials__card-avatar {
+    width: 48px;
+    height: 48px;
   }
 }
