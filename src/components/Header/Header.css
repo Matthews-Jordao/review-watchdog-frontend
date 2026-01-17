@@ -29,6 +29,13 @@
   display: flex;
   align-items: center;
   gap: 0;
+  text-decoration: none; /* Remove link underline */
+  color: inherit; /* Inherit color */
+  transition: opacity 0.3s ease;
+}
+
+.header__logo:hover {
+  opacity: 0.8; /* Subtle hover effect */
 }
 
 .header__logo-icon {
