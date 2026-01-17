@@ -16,10 +16,12 @@
 .testimonials__wrapper {
   display: flex;
   align-items: center;
+  justify-content: center; /* Center all content horizontally */
   gap: var(--space-4);
   max-width: 1300px;
   width: 100%;
   position: relative;
+  margin: 0 auto; /* Center the wrapper horizontally */
 }
 
 /* Element: Content viewport - shows exactly 3 cards */
@@ -27,6 +29,7 @@
   width: 1110px; /* 3 cards × 350px + 2 gaps × 16px = 1110px */
   overflow: hidden;
   position: relative;
+  flex-shrink: 0; /* Prevent content from shrinking */
 }
 
 /* Element: Sliding container for all testimonial cards */
