@@ -1,0 +1,752 @@
+/* ===================================
+   BUSINESS DETAIL PAGE
+   ================================= */
+
+.business-detail {
+  min-height: 100vh;
+  background: var(--bg-gray);
+  padding: var(--space-6) 0;
+}
+
+.business-detail .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* Element: Back button */
+.business-detail__back-btn {
+  background: none;
+  border: 1px solid #E5E7EB;
+  color: var(--text-primary);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-base);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.business-detail__back-btn:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+.business-detail__back-btn--top {
+  margin-bottom: var(--space-6);
+}
+
+/* Element: Loading state */
+.business-detail__loading {
+  text-align: center;
+  padding: var(--space-12) 0;
+}
+
+.business-detail__loading p {
+  margin-top: var(--space-4);
+  color: #6B7280;
+  font-size: var(--text-lg);
+}
+
+/* Element: Error state */
+.business-detail__error {
+  text-align: center;
+  padding: var(--space-12) 0;
+}
+
+.business-detail__error h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.business-detail__error p {
+  color: #6B7280;
+  margin: 0 0 var(--space-6) 0;
+}
+
+/* ===================================
+   BUSINESS HEADER SECTION
+   ================================= */
+
+.business-detail__header {
+  display: flex;
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  gap: var(--space-6);
+  max-width: 100%;
+}
+
+.business-detail__image {
+  width: 280px;
+  height: 200px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.business-detail__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.business-detail__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.business-detail__name {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2) 0;
+  line-height: var(--leading-tight);
+}
+
+.business-detail__address {
+  font-size: var(--text-lg);
+  color: #6B7280;
+  margin: 0 0 var(--space-3) 0;
+  line-height: var(--leading-relaxed);
+}
+
+/* Element: Business Hours */
+.business-detail__hours {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3);
+  background: #F9FAFB;
+  border-radius: var(--radius-base);
+  border: 1px solid #E5E7EB;
+}
+
+.business-detail__hours-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.business-detail__hours-text {
+  font-size: var(--text-sm);
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+.business-detail__actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: auto;
+}
+
+.business-detail__btn {
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-base);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.business-detail__btn--primary {
+  background: var(--primary-blue);
+  color: var(--text-white);
+  box-shadow: 0 2px 4px rgba(59, 124, 208, 0.2);
+}
+
+.business-detail__btn--primary:hover {
+  background: #2563EB;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 124, 208, 0.3);
+}
+
+.business-detail__btn--secondary {
+  background: #374151;
+  color: var(--text-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.business-detail__btn--secondary:hover {
+  background: #1F2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ===================================
+   PLATFORM RATINGS SECTION
+   ================================= */
+
+.business-detail__platforms {
+  display: flex;
+  gap: var(--space-4);
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+.business-detail__platform {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.business-detail__platform--active {
+  opacity: 1;
+}
+
+.business-detail__platform--inactive {
+  opacity: 0.6;
+}
+
+.business-detail__platform-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.business-detail__platform-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.business-detail__platform-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid #E5E7EB;
+  border-radius: 50%;
+}
+
+.business-detail__stars {
+  display: flex;
+  gap: 1px;
+}
+
+.business-detail__stars--grayed .star {
+  color: #D1D5DB !important;
+}
+
+.business-detail__stars--grayed .star--filled {
+  color: #D1D5DB !important;
+}
+
+.star {
+  font-size: 20px;
+  color: #D1D5DB;
+}
+
+.star--filled {
+  color: #F59E0B;
+}
+
+.star--half {
+  background: linear-gradient(90deg, #F59E0B 50%, #D1D5DB 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.business-detail__rating-text {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.business-detail__rating-text--unavailable {
+  color: #9CA3AF;
+}
+
+.business-detail__rating-text--grayed {
+  color: #9CA3AF !important;
+}
+
+.business-detail__review-count {
+  font-size: var(--text-xs);
+  color: #6B7280;
+  text-align: center;
+}
+
+.business-detail__review-count--grayed {
+  color: #9CA3AF !important;
+}
+
+/* ===================================
+   REVIEWS SECTION
+   ================================= */
+
+.business-detail__reviews {
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.business-detail__reviews-title {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-6) 0;
+}
+
+.business-detail__reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.business-detail__review {
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  background: #FAFAFA;
+}
+
+.business-detail__review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-3);
+}
+
+.business-detail__review-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.business-detail__review-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary-blue);
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  flex-shrink: 0;
+}
+
+.business-detail__review-info {
+  flex: 1;
+}
+
+.business-detail__review-name {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.business-detail__review-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.business-detail__review-date {
+  font-size: var(--text-sm);
+  color: #6B7280;
+}
+
+.business-detail__review-platform {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.business-detail__review-text {
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+/* Element: Review Photos */
+.review__photos {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.review__photo {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 1px solid #E5E7EB;
+}
+
+.review__photo:hover {
+  transform: scale(1.05);
+}
+
+.review__photos-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: #F3F4F6;
+  border-radius: var(--radius-base);
+  font-size: var(--text-sm);
+  color: #6B7280;
+  font-weight: var(--font-medium);
+  border: 1px solid #E5E7EB;
+}
+
+.business-detail__no-reviews {
+  text-align: center;
+  padding: var(--space-8) 0;
+}
+
+.business-detail__no-reviews p {
+  font-size: var(--text-lg);
+  color: #6B7280;
+  margin: 0 0 var(--space-6) 0;
+}
+
+/* Element: Load More Reviews */
+.business-detail__load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-6);
+  padding: var(--space-4) 0;
+}
+
+.business-detail__load-btn {
+  background: white;
+  border: 1px solid #E5E7EB;
+  color: var(--text-primary);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 160px;
+  justify-content: center;
+}
+
+.business-detail__load-btn:hover:not(:disabled) {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+  transform: translateY(-1px);
+}
+
+.business-detail__load-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.business-detail__load-btn .circle-preloader--small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+.business-detail__error-message {
+  color: #DC2626;
+  font-size: var(--text-sm);
+  margin-top: var(--space-2);
+  text-align: center;
+}
+
+/* ===================================
+   RESPONSIVE STYLES
+   ================================= */
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .business-detail .container {
+    max-width: 1000px;
+  }
+  
+  .business-detail__header {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .business-detail__platforms {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .business-detail__reviews {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .business-detail__header {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .business-detail__image {
+    width: 100%;
+    height: 180px;
+  }
+  
+  .business-detail__actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  
+  .business-detail__btn {
+    width: 100%;
+  }
+  
+  .business-detail__platforms {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .business-detail__platform-header {
+    justify-content: center;
+  }
+  
+  .business-detail__review-header {
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+  
+  .business-detail__hours {
+    text-align: left;
+  }
+  
+  .review__photos {
+    justify-content: center;
+  }
+  
+  .review__photo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .review__photos-more {
+    width: 60px;
+    height: 60px;
+    font-size: var(--text-xs);
+  }
+}
+
+/* ===================================
+   FILTER FUNCTIONALITY
+   ================================= */
+
+/* Reviews header with filter button */
+.business-detail__reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.business-detail__reviews-title {
+  margin: 0;
+}
+
+/* Filter button */
+.business-detail__filter-button {
+  background: none;
+  border: none;
+  color: #9CA3AF; /* Gray-400 */
+  padding: var(--space-2);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.business-detail__filter-button:hover {
+  color: var(--text-primary);
+  background: #F3F4F6; /* Gray-100 */
+}
+
+/* Filter info bar */
+.business-detail__filter-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #EFF6FF; /* Blue-50 */
+  border: 1px solid #DBEAFE; /* Blue-200 */
+  border-radius: var(--radius-base);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  color: #1E40AF; /* Blue-800 */
+}
+
+.business-detail__clear-filters {
+  background: none;
+  border: none;
+  color: #2563EB; /* Blue-600 */
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  padding: 0;
+}
+
+.business-detail__clear-filters:hover {
+  color: #1D4ED8; /* Blue-700 */
+}
+
+/* Filter modal */
+.business-detail__filter-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.business-detail__filter-modal {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.business-detail__filter-modal h3 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+}
+
+.business-detail__filter-group {
+  margin-bottom: var(--space-4);
+}
+
+.business-detail__filter-group label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+}
+
+.business-detail__filter-group select,
+.business-detail__filter-group input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #D1D5DB; /* Gray-300 */
+  border-radius: var(--radius-base);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  background: white;
+}
+
+.business-detail__filter-group select:focus,
+.business-detail__filter-group input:focus {
+  outline: none;
+  border-color: #3B82F6; /* Blue-500 */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.business-detail__filter-buttons {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.business-detail__filter-apply {
+  background: #3B82F6; /* Blue-500 */
+  color: white;
+  border: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-base);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  flex: 1;
+}
+
+.business-detail__filter-apply:hover {
+  background: #2563EB; /* Blue-600 */
+}
+
+.business-detail__filter-clear {
+  background: #EF4444; /* Red-500 */
+  color: white;
+  border: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-base);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  flex: 1;
+}
+
+.business-detail__filter-clear:hover {
+  background: #DC2626; /* Red-600 */
+}
+
+.business-detail__filter-cancel {
+  background: #F3F4F6; /* Gray-100 */
+  color: var(--text-primary);
+  border: 1px solid #D1D5DB; /* Gray-300 */
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-base);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  flex: 1;
+}
+
+.business-detail__filter-cancel:hover {
+  background: #E5E7EB; /* Gray-200 */
+}
+
+/* Rating-only reviews */
+.business-detail__review-text--empty {
+  color: #9CA3AF; /* Gray-400 */
+  font-style: italic;
+}

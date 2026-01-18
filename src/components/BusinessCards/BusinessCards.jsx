@@ -1,10 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './BusinessCards.css';
 import googleIcon from '../../assets/images/google circle icon.svg';
 import facebookIcon from '../../assets/images/facebook circle icon.svg';
 import yelpIcon from '../../assets/images/yelp circle icon.svg';
 
 function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiting }) {
+  const navigate = useNavigate();
+  
   const renderStars = (rating, filled = true) => {
     const stars = [];
     const fullStars = filled ? Math.floor(rating) : 0;
@@ -39,6 +42,12 @@ function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiti
     
     // Open website in new tab
     window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleViewAllReviews = (business) => {
+    navigate(`/business/${business.place_id}`, { 
+      state: { business } 
+    });
   };
 
   return (
@@ -138,7 +147,10 @@ function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiti
                         <button className="business-card__btn business-card__btn--primary">
                           Leave a Review
                         </button>
-                        <button className="business-card__btn business-card__btn--secondary">
+                        <button 
+                          className="business-card__btn business-card__btn--secondary"
+                          onClick={() => handleViewAllReviews(business)}
+                        >
                           View All Reviews
                         </button>
                       </div>
