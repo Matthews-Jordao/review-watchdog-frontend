@@ -91,10 +91,7 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* Element: Navigation container */
-.footer__nav {
-  /* No specific styling - semantic container */
-}
+/* Element: Navigation list container - semantic container only */
 
 /* Element: Navigation list */
 .footer__nav-list {

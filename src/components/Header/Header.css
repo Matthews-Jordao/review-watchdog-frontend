@@ -32,6 +32,11 @@
   text-decoration: none; /* Remove link underline */
   color: inherit; /* Inherit color */
   transition: opacity 0.3s ease;
+  background: none; /* Remove button background */
+  border: none; /* Remove button border */
+  padding: 0; /* Remove button padding */
+  cursor: pointer; /* Ensure cursor shows pointer */
+  font-family: inherit; /* Inherit font family */
 }
 
 .header__logo:hover {
@@ -52,6 +57,7 @@
   display: flex;
   flex-direction: column;
   line-height: 1;
+  text-align: left;
 }
 
 .header__logo-text--review {

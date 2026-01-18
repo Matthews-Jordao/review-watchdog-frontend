@@ -5,3 +5,172 @@
 .homepage main {
   /* Main content styles if needed */
 }
+
+/* Search section that appears between Hero and original content */
+.homepage__search-section {
+  animation: slideInFromTop 0.5s ease-out;
+  transition: max-height 0.5s ease-out, opacity 0.4s ease-out;
+  overflow: hidden;
+  position: relative;
+  z-index: var(--z-dropdown);
+}
+
+/* Exit animation for search section */
+.homepage__search-section--exiting {
+  animation: slideOutToTop 0.5s ease-in forwards;
+}
+
+/* Business results container with smooth eased animation */
+.homepage__business-results {
+  animation: easeInBusinessCards 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: max-height 0.5s ease-out, opacity 0.4s ease-out, transform 0.4s ease-out;
+  overflow: hidden;
+}
+
+/* Exit animation for business results */
+.homepage__business-results--exiting {
+  animation: easeOutBusinessCards 0.5s cubic-bezier(0.55, 0.06, 0.68, 0.19) forwards;
+}
+
+/* Loading state within search section */
+.homepage__search-loading {
+  padding: var(--space-8) 0;
+  text-align: center;
+  background: #F9FAFB;
+  border-top: 1px solid #E5E7EB;
+  border-bottom: 1px solid #E5E7EB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  position: relative;
+  z-index: var(--z-sticky);
+  min-height: 120px;
+  width: 100%;
+}
+
+.homepage__search-loading .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Fade out modifier for smooth transition */
+.homepage__search-loading--fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* Original content container with smooth transitions */
+.homepage__original-content {
+  transition: transform 0.4s ease-out, margin-top 0.4s ease-out;
+}
+
+/* Push down original content when search section appears */
+.homepage__original-content--pushed-down {
+  transform: translateY(0);
+  margin-top: 0;
+}
+
+/* No Results Message */
+.homepage__no-results {
+  padding: var(--space-12) 0;
+  text-align: center;
+  background: var(--bg-gray);
+  animation: slideInResults 0.5s ease-out;
+}
+
+.homepage__no-results h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.homepage__no-results p {
+  font-size: var(--text-base);
+  color: #6B7280;
+  margin: 0;
+}
+
+/* Animation for search section appearing from top */
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1000px;
+  }
+}
+
+/* Smooth eased-in animation for business cards */
+@keyframes easeInBusinessCards {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animation for search results appearing */
+@keyframes slideInResults {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Exit animation for business cards - shrinks height smoothly */
+@keyframes easeOutBusinessCards {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    max-height: 1000px;
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-20px) scale(0.98);
+    max-height: 500px;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.95);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* Exit animation for search section - slides up and shrinks */
+@keyframes slideOutToTop {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 1000px;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

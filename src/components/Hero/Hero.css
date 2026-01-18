@@ -49,6 +49,7 @@
   padding: 0;
   box-shadow: var(--shadow-lg);
   position: relative;
+  z-index: 1;
 }
 
 /* Responsive behavior for search bar */
@@ -134,6 +135,52 @@
 
 .hero__search-btn:hover {
   opacity: 0.8;
+}
+
+/* Element: Search status text between search bar and powered by */
+.hero__search-status {
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-2);
+  text-align: center;
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Element: Search status text */
+.hero__search-status-text {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: #6B7280;
+  font-weight: var(--font-medium);
+}
+
+/* Loading spinner styles */
+.circle-preloader {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border: 4px solid #E5E7EB;
+  border-top: 4px solid var(--primary-blue);
+  border-radius: 50%;
+  position: relative;
+  animation: spin .75s infinite linear;
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
