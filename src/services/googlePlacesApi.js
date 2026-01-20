@@ -61,10 +61,7 @@ export const searchBusinesses = async (query, location = '') => {
 
   } catch (error) {
     console.error('Error searching businesses:', error);
-    // Fallback to mock data on error for development
-    const { searchMockBusinesses } = await import('../data/mockBusinesses.js');
-    console.warn('Falling back to mock data due to API error');
-    return searchMockBusinesses(query);
+    throw new Error('Failed to search businesses. Please check your API key configuration.');
   }
 };
 

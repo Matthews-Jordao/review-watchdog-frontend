@@ -7,7 +7,7 @@ import AudienceCards from '../../components/AudienceCards/AudienceCards';
 import TestimonialsCarousel from '../../components/TestimonialsCarousel/TestimonialsCarousel';
 import WhyChooseSection from '../../components/WhyChooseSection/WhyChooseSection';
 import BottomCTA from '../../components/BottomCTA/BottomCTA';
-import { searchMockBusinesses } from '../../data/mockBusinesses';
+import { searchBusinesses } from '../../services/googlePlacesApi';
 
 function HomePage() {
   const [searchResults, setSearchResults] = useState([]);
@@ -67,11 +67,18 @@ function HomePage() {
 
     setIsLoadingMore(true);
     try {
-      const results = await searchMockBusinesses(currentQuery, searchResults.length);
-      setSearchResults(prev => [...prev, ...results.businesses]);
-      setHasMore(results.hasMore);
+      const results = await searchBusinesses(currentQuery);
+      const newBusinesses = results.businesses.filter(
+        newBusiness => !searchResults.some(
+          existing => existing.place_id === newBusiness.place_id
+        )
+      );
+      setSearchResults(prev => [...prev, ...newBusinesses]);
+      setHasMore(newBusinesses.length > 0);
     } catch (err) {
       console.error('Load more failed:', err);
+      setError('Failed to load more results. Please try again.');
+      setHasMore(false);
     } finally {
       setIsLoadingMore(false);
     }
