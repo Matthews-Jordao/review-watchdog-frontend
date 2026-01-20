@@ -1,7 +1,7 @@
 // Outscraper API integration service for fetching comprehensive reviews
 // This service provides access to all reviews for a business, not just the limited set from Google Places API
 
-const API_KEY = 'MWM4NmU3NWIyNTdjNGM3NDg2NTI5Y2IyNzdhY2U5MzV8Njg0MTlkYzkwMg';
+const API_KEY = import.meta.env.VITE_OUTSCRAPER_API_KEY;
 const BASE_URL = 'https://api.outscraper.cloud';
 
 /**
