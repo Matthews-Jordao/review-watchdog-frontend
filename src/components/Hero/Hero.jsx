@@ -99,6 +99,7 @@ function Hero({ onSearchResults, onSearchStateChange }) {
               onChange={handleSearchChange}
               placeholder="Try 'Papa's Pizza' or 'Main Street Auto Repairs'..."
               className="hero__search-input"
+              required
             />
             <button type="submit" className="hero__search-btn">
               <img src={searchIcon} alt="Search" className="hero__search-icon" />

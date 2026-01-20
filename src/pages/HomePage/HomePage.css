@@ -6,6 +6,17 @@
   /* Main content styles if needed */
 }
 
+/* Anchor section centering */
+#features {
+  scroll-margin-top: 25vh;
+  scroll-snap-align: center;
+}
+
+#testimonials {
+  scroll-margin-top: 25vh;
+  scroll-snap-align: center;
+}
+
 /* Search section that appears between Hero and original content */
 .homepage__search-section {
   animation: slideInFromTop 0.5s ease-out;

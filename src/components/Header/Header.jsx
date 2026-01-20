@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 import logo from '../../assets/images/logo.svg';
+import { LoginModal, RegisterModal } from '../modals';
 
 function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,6 +27,45 @@ function Header() {
     }
   };
 
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    setIsLoginModalOpen(true);
+    setIsMobileMenuOpen(false); // Close mobile menu if open
+  };
+
+  const handleSignUpClick = (e) => {
+    e.preventDefault();
+    setIsRegisterModalOpen(true);
+    setIsMobileMenuOpen(false); // Close mobile menu if open
+  };
+
+  const handleCloseModals = () => {
+    setIsLoginModalOpen(false);
+    setIsRegisterModalOpen(false);
+  };
+
+  const handleLogin = (formData) => {
+    console.log('Login:', formData);
+    // Handle login logic here
+    handleCloseModals();
+  };
+
+  const handleRegister = (formData) => {
+    console.log('Register:', formData);
+    // Handle register logic here
+    handleCloseModals();
+  };
+
+  const handleSwitchToRegister = () => {
+    setIsLoginModalOpen(false);
+    setIsRegisterModalOpen(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setIsRegisterModalOpen(false);
+    setIsLoginModalOpen(true);
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -39,8 +81,8 @@ function Header() {
           {/* Desktop Navigation */}
           <nav className="header__nav header__nav--desktop">
             <a href="#businesses" className="header__nav-link">For Businesses</a>
-            <a href="#login" className="header__nav-link">Log in</a>
-            <button className="header__cta-btn">Sign Up</button>
+            <button onClick={handleLoginClick} className="header__nav-link">Log in</button>
+            <button onClick={handleSignUpClick} className="header__cta-btn">Sign Up</button>
           </nav>
 
           {/* Mobile Hamburger Button */}
@@ -57,11 +99,27 @@ function Header() {
           {/* Mobile Navigation */}
           <nav className={`header__nav header__nav--mobile ${isMobileMenuOpen ? 'header__nav--mobile-open' : ''}`}>
             <a href="#businesses" className="header__nav-link">For Businesses</a>
-            <a href="#login" className="header__nav-link">Log in</a>
-            <button className="header__cta-btn">Sign Up</button>
+            <button onClick={handleLoginClick} className="header__nav-link">Log in</button>
+            <button onClick={handleSignUpClick} className="header__cta-btn">Sign Up</button>
           </nav>
         </div>
       </div>
+      
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onLogin={handleLogin}
+        onRegister={handleSwitchToRegister}
+        onClose={handleCloseModals}
+      />
+      
+      {/* Register Modal */}
+      <RegisterModal 
+        isOpen={isRegisterModalOpen}
+        onRegister={handleRegister}
+        onLogin={handleSwitchToLogin}
+        onClose={handleCloseModals}
+      />
     </header>
   );
 }

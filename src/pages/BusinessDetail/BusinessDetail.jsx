@@ -64,6 +64,24 @@ function BusinessDetail() {
     }
   }, [business?.reviews]); // Removed reviewsToShow dependency
 
+  // ESC key support for filter modal
+  useEffect(() => {
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape' && showFilterModal) {
+        setShowFilterModal(false);
+      }
+    };
+
+    if (showFilterModal) {
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+    
+    // Cleanup listener on unmount or when modal closes
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [showFilterModal]);
+
   const renderStars = (rating, filled = true) => {
     const stars = [];
     const fullStars = filled ? Math.floor(rating) : 0;

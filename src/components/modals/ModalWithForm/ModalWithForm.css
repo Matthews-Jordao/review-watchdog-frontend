@@ -1,0 +1,355 @@
+/* Modal Overlay */
+.modal-with-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25); /* Using Review Watchdog navy overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Modal opened state */
+.modal_is-opened {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Modal Content - Liquid Glass Effect */
+.modal__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 400px;
+  height: 475px;
+  max-height: 80vh;
+  overflow: hidden;
+  padding: 24px 24px 24px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  
+  /* Liquid Glass Wrapper Styles */
+  font-weight: 600;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+/* Liquid Glass Effect Layer */
+.modal__content::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(3px)) {
+  .modal__content::before {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Liquid Glass Tint Layer */
+.modal__content::after {
+  content: '';
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.50);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* Liquid Glass Shine Layer */
+.modal__content .modal__glass-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.5),
+    inset -1px -1px 1px 1px rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+/* Modal Content Layer - Make all content visible above glass */
+.modal__content .modal__close,
+.modal__content .modal__title,
+.modal__content .modal__form {
+  position: relative;
+  z-index: 10;
+}
+
+/* Close Button */
+.modal__close {
+  font-size: 20px;
+  font-weight: normal;
+  position: absolute !important;
+  top: 20px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary, #666);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  margin: 0;
+  float: none;
+}
+
+.modal__close:hover {
+  color: var(--text-primary, #0F1F38);
+}
+
+/* Title */
+.modal__title {
+  margin: 0 0 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #0F1F38;
+  position: relative;
+  z-index: 5;
+}
+
+/* Form */
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  position: relative;
+  z-index: 5;
+}
+
+/* Input Group */
+.modal__input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Label */
+.modal__label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary, #0F1F38);
+}
+
+/* Input */
+.modal__input {
+  width: 100%;
+  height: 40px;
+  padding: 10px 14px;
+  border: 2px solid var(--border-light, #E5E7EB);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary, #0F1F38);
+  background: var(--bg-white, #ffffff);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal__input::placeholder {
+  color: var(--text-muted, #9CA3AF);
+}
+
+.modal__input:focus {
+  outline: none;
+  border-color: var(--primary-blue, #3B7CD0);
+  box-shadow: 0 0 0 3px rgba(59, 124, 208, 0.1);
+}
+
+.modal__input:invalid {
+  border-color: var(--error-red, #EF4444);
+}
+
+/* Submit Button */
+.modal__submit {
+  align-self: flex-start;
+  border-radius: 8px;
+  border: none;
+  background: #2C2C2C;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+  padding: 8px 24px;
+  min-width: 100px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.modal__submit:hover:not(:disabled) {
+  background: #1a1a1a;
+  transform: translateY(-1px);
+}
+
+.modal__submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.modal__submit:disabled {
+  background: var(--bg-muted, #9CA3AF);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error Message */
+.modal__error {
+  color: var(--error-red, #EF4444);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+/* Auth Redirect Links */
+.modal__redirect {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.modal__redirect-btn {
+  background: none;
+  border: none;
+  color: var(--primary-blue, #3B7CD0);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  text-decoration: none;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.modal__redirect-btn:hover {
+  color: var(--primary-blue-hover, #2c6bc7);
+  text-decoration: underline;
+}
+
+/* Specific Modal Sizes */
+.modal_type_login .modal__content {
+  width: 400px;
+  height: 475px;
+}
+
+.modal_type_register .modal__content {
+  width: 400px;
+  height: 475px;
+}
+
+.modal_type_edit-account .modal__content {
+  width: 400px;
+  height: 475px;
+}
+
+/* Mobile responsive adjustments */
+@media screen and (max-width: 768px) {
+  .modal__content {
+    width: 90vw;
+    max-width: 400px;
+    min-height: auto;
+    margin: 20px;
+    padding: 24px 20px 32px;
+    border-radius: 16px;
+  }
+
+  /* Ensure glass effect works on mobile */
+  @supports not (backdrop-filter: blur(20px)) {
+    .modal__content {
+      background: rgba(255, 255, 255, 0.95);
+    }
+  }
+
+  .modal__title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .modal__close {
+    right: 20px;
+    top: 20px;
+  }
+
+  .modal_type_register .modal__content,
+  .modal_type_login .modal__content,
+  .modal_type_edit-account .modal__content {
+    width: 90vw;
+    max-width: 400px;
+  }
+
+  .modal__redirect {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal__content {
+    width: 95vw;
+    max-width: 320px;
+    padding: 20px 16px 28px;
+    margin: 16px;
+  }
+
+  .modal__title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .modal__input {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  .modal__label {
+    font-size: 14px;
+  }
+
+  .modal__submit {
+    font-size: 14px;
+    padding: 10px 24px;
+    width: 100%;
+  }
+
+  .modal__close {
+    right: 16px;
+    top: 16px;
+    font-size: 20px;
+  }
+
+  .modal__redirect-btn {
+    font-size: 14px;
+  }
+}

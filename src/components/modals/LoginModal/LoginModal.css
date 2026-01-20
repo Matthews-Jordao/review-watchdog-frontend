@@ -1,0 +1,85 @@
+/* LoginModal specific styles */
+.modal_type_login .modal__title {
+  color: var(--primary-navy, #0F1F38);
+}
+
+/* Button layout matching the photo */
+.login-modal__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.login-modal__register-btn,
+.login-modal__signin-btn {
+  width: 100%;
+  align-self: stretch;
+}
+
+/* Checkbox Group */
+.login-modal__checkbox-group {
+  margin: 4px 0;
+}
+
+.login-modal__checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.login-modal__checkbox {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  margin-top: 2px;
+  accent-color: #2C2C2C;
+  cursor: pointer;
+}
+
+.login-modal__checkbox-text {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.login-modal__label-text {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-primary, #0F1F38);
+  margin-bottom: 4px;
+}
+
+.login-modal__description-text {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--text-secondary, #666);
+  line-height: 1.3;
+}
+
+/* Modal content adjustments */
+.modal_type_login .modal__content {
+  width: 420px;
+  min-height: 450px;
+}
+
+@media screen and (max-width: 768px) {
+  .modal_type_login .modal__content {
+    width: 90vw;
+    max-width: 380px;
+  }
+  
+  .login-modal__checkbox-label {
+    gap: 8px;
+  }
+  
+  .login-modal__label-text {
+    font-size: 15px;
+  }
+  
+  .login-modal__description-text {
+    font-size: 13px;
+  }
+}

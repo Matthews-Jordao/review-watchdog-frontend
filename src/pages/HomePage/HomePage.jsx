@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './HomePage.css';
 import Hero from '../../components/Hero/Hero';
 import BusinessCards from '../../components/BusinessCards/BusinessCards';
@@ -10,6 +11,7 @@ import BottomCTA from '../../components/BottomCTA/BottomCTA';
 import { searchBusinesses } from '../../services/googlePlacesApi';
 
 function HomePage() {
+  const location = useLocation();
   const [searchResults, setSearchResults] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [currentQuery, setCurrentQuery] = useState('');
@@ -19,6 +21,23 @@ function HomePage() {
   const [hasResults, setHasResults] = useState(false);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+
+  // Handle anchor scrolling when component loads or hash changes
+  useEffect(() => {
+    if (location.hash) {
+      const elementId = location.hash.substring(1); // Remove the #
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Use a small delay to ensure the page is fully rendered
+        setTimeout(() => {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
 
   const handleSearchResults = (results, query) => {
     // If query is empty and we had results before, trigger exit animation
@@ -139,8 +158,12 @@ function HomePage() {
       }`}>
         <ReviewCardsRow />
         <AudienceCards />
-        <TestimonialsCarousel />
-        <WhyChooseSection />
+        <div id="testimonials">
+          <TestimonialsCarousel />
+        </div>
+        <div id="features">
+          <WhyChooseSection />
+        </div>
         <BottomCTA />
       </div>
     </div>

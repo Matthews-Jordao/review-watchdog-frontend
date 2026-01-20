@@ -35,10 +35,10 @@ function Footer() {
                   <Link to="/about" className="footer__nav-link">About</Link>
                 </li>
                 <li className="footer__nav-item">
-                  <a href="#features" className="footer__nav-link">Features</a>
+                  <a href="/#features" className="footer__nav-link">Features</a>
                 </li>
                 <li className="footer__nav-item">
-                  <a href="#testimonials" className="footer__nav-link">Testimonials</a>
+                  <a href="/#testimonials" className="footer__nav-link">Testimonials</a>
                 </li>
               </ul>
             </nav>
