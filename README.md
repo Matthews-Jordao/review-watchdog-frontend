@@ -1,118 +1,68 @@
 # Review Watchdog Frontend
 
-A React application for viewing business reviews and ratings across multiple platforms including Google, Facebook, and Yelp.
+This is a React application I built to solve a problem I personally experienced - having to check multiple review sites like Google, Facebook, and Yelp just to get a complete picture of what people think about a business. With Review Watchdog, you can search for any business and see all the reviews in one place.
 
-## Features
+## Live Demo
 
-- Search for local businesses using Google Places API
-- View comprehensive business details with hours and contact info
-- Browse unlimited reviews from multiple platforms via Outscraper API
-- Filter reviews by rating and date
-- Responsive design optimized for desktop and mobile
-- Pagination system for efficient review loading
+You can check out the live application here: [Review Watchdog Frontend](https://matthews-jordao.github.io/review-watchdog-frontend/)
 
-## Setup Instructions
+*Note: Full functionality requires API keys - see setup section below*
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
-- Google Cloud Platform account
-- Outscraper account (for extended review data)
+## What it does
 
-### Installation
+I wanted to create something that would save time when researching local businesses. Here's what the app can do:
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd review-watchdog-frontend
-   ```
+- Search for businesses in your area and get detailed information
+- View ratings and reviews from multiple platforms without switching between websites
+- Filter reviews by star rating or sort by date to find the most relevant feedback
+- See way more than just the 5 reviews Google normally shows you
+- Get all the business details you need (hours, phone, website) in one place
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+The interface is clean and works great on both desktop and mobile.
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Edit the `.env` file and add your API keys:
-   
-   - **Google Places API Key**: Get from [Google Cloud Console](https://console.cloud.google.com/google/maps-apis/credentials)
-     - Enable "Places API (New)" and "Geocoding API"
-     - Restrict the key to your domain for security
-   
-   - **Outscraper API Key**: Get from [Outscraper Dashboard](https://app.outscraper.cloud/api-key)
-     - Used for fetching comprehensive review data beyond Google's limitations
+## Key Features
 
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+**Business Search & Discovery**
+I integrated Google Places API to handle the business search functionality. It finds businesses in real-time and provides all the basic info like hours, phone numbers, and addresses.
 
-5. **Open your browser**
-   Navigate to `http://localhost:5173`
+**Extended Review Access** 
+This was the trickiest part - Google's API only gives you 5 reviews per business, which isn't very helpful. I solved this by integrating Outscraper's API, which can pull way more reviews from multiple platforms. Now users can see dozens of reviews instead of just a handful.
 
-## API Configuration
+**Smart Filtering**
+Added filters for star ratings and date sorting because nobody wants to scroll through hundreds of reviews to find what they're looking for.
 
-### Google Places API Setup
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing one
-3. Enable these APIs:
-   - Places API (New)
-   - Geocoding API
-4. Create an API key and add it to your `.env` file
-5. Restrict the API key to prevent unauthorized usage
+**Responsive Design**
+Made sure it works perfectly on phones since that's probably where most people would use this.
 
-### Outscraper API Setup
-1. Sign up at [Outscraper](https://app.outscraper.cloud/)
-2. Get your API key from the dashboard
-3. Add it to your `.env` file as `VITE_OUTSCRAPER_API_KEY`
+## How I Built It
 
-## Project Structure
+**APIs I'm Using:**
 
-```
-src/
-├── components/         # Reusable UI components
-├── pages/             # Main page components
-├── services/          # API integration services
-├── styles/            # Global styles and variables
-└── utils/             # Utility functions
-```
+*Google Places API* - This handles finding businesses and getting basic info. I chose the "New" version because it's more reliable and gives better data than the legacy version.
 
-## Technologies Used
+*Outscraper API* - This was a game-changer for getting unlimited reviews. Google restricts you to 5 reviews, but Outscraper can pull comprehensive review data from multiple platforms. It's what makes this app actually useful instead of just another basic business finder.
 
-- **React 18** - Frontend framework
-- **Vite** - Build tool and dev server
-- **React Router** - Client-side routing
-- **Google Places API** - Business search and basic data
-- **Outscraper API** - Comprehensive review aggregation
-- **CSS3** - Styling with custom properties
+The way it works: Google Places API handles the search and basic business info, then when someone clicks "View All Reviews", Outscraper takes over and loads all the reviews with proper pagination so it doesn't crash the browser.
 
-## Available Scripts
+## Technical Stuff
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
+## �️ Setup Instructions
 
-## Usage
+## Running It Locally
 
-1. **Search for businesses** using the search bar on the homepage
-2. **Browse results** with business cards showing ratings and basic info
-3. **Click "View All Reviews"** to see detailed business page
-4. **Filter reviews** by rating (1-5 stars) and date range
-5. **Load more reviews** using the "Load More" button
+If you want to run this locally, you'll need to get your own API keys:
 
-## Notes for Instructors
+1. Clone the repo: `git clone https://github.com/Matthews-Jordao/review-watchdog-frontend.git`
+2. Install dependencies: `npm install`  
+3. Copy `.env.example` to `.env` and add your API keys:
+   - Google Places API key from [Google Cloud Console](https://console.cloud.google.com/)
+   - Outscraper API key from [their dashboard](https://app.outscraper.cloud/)
+4. Start it up: `npm run dev`
 
-- The `.env` file is gitignored for security - use `.env.example` as template
-- Both APIs require valid keys and billing setup to function
-- Google Places API provides business data and up to 5 reviews
-- Outscraper API provides unlimited reviews when Google's limit is reached
-- Error handling is implemented for missing or invalid API keys
+Both APIs require billing setup, so keep that in mind. Google gives you some free credits to start with.
 
-## License
+## Notes
 
-This project is for educational purposes.
+This was a fun project to work on because it actually solves a real problem I had. The biggest challenge was working around Google's review limitations and figuring out the right way to paginate through large review datasets without making the UI slow.
+
+The live demo on GitHub Pages shows the full functionality, though you'd need your own API keys to search for different businesses.
