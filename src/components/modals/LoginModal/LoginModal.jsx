@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
+import { authorize } from '../../../utils/auth';
 import './LoginModal.css';
 
 const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false }) => {
@@ -9,6 +10,8 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
     acceptTerms: false,
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [generalError, setGeneralError] = useState('');
 
   const isFormValid = formData.email.trim() && formData.password.trim();
 
@@ -28,11 +31,20 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isFormValid) return;
-
-    onLogin(formData);
+    setLoading(true);
+    setGeneralError('');
+    try {
+      const response = await authorize(formData.email, formData.password);
+      onLogin({ email: formData.email }); // Pass minimal user data up
+      resetForm();
+    } catch (err) {
+      setGeneralError(err.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRegister = (e) => {
@@ -60,18 +72,18 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
       <button 
         type="button" 
         className="modal__submit login-modal__register-btn" 
-        disabled={!isFormValid || isLoading}
+        disabled={!isFormValid || loading}
         onClick={handleRegister}
       >
-        {isLoading ? 'Creating...' : 'Register'}
+        {loading ? 'Creating...' : 'Register'}
       </button>
       <button
         type="button"
         className="modal__submit login-modal__signin-btn"
-        disabled={!isFormValid || isLoading}
+        disabled={!isFormValid || loading}
         onClick={handleSubmit}
       >
-        {isLoading ? 'Signing in...' : 'Sign in'}
+        {loading ? 'Signing in...' : 'Sign in'}
       </button>
     </div>
   );
@@ -134,6 +146,10 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
           </span>
         </label>
       </div>
+
+      {generalError && (
+        <div className="modal__error" style={{ marginBottom: 12 }}>{generalError}</div>
+      )}
     </ModalWithForm>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
+import { register } from '../../../utils/auth';
 import './RegisterModal.css';
 
 const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false }) => {
@@ -9,6 +10,8 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
     acceptTerms: false,
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [generalError, setGeneralError] = useState('');
 
   const isFormValid = formData.email.trim() && formData.password.trim();
 
@@ -34,10 +37,22 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
     onLogin(formData);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (!isFormValid) return;
-    onRegister(formData);
+    setLoading(true);
+    setGeneralError('');
+    try {
+      // For demo, use a placeholder name or add a name field to the form
+      const name = formData.name || 'New User';
+      await register(name, formData.email, formData.password);
+      onRegister({ email: formData.email });
+      resetForm();
+    } catch (err) {
+      setGeneralError(err.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resetForm = () => {
@@ -59,18 +74,18 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
       <button 
         type="button" 
         className="modal__submit register-modal__register-btn" 
-        disabled={!isFormValid || isLoading}
+        disabled={!isFormValid || loading}
         onClick={handleRegister}
       >
-        {isLoading ? 'Creating...' : 'Register'}
+        {loading ? 'Creating...' : 'Register'}
       </button>
       <button
         type="button"
         className="modal__submit register-modal__signin-btn"
-        disabled={!isFormValid || isLoading}
+        disabled={!isFormValid || loading}
         onClick={handleSubmit}
       >
-        {isLoading ? 'Signing in...' : 'Sign in'}
+        {loading ? 'Signing in...' : 'Sign in'}
       </button>
     </div>
   );
@@ -133,6 +148,10 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
           </span>
         </label>
       </div>
+
+      {generalError && (
+        <div className="modal__error" style={{ marginBottom: 12 }}>{generalError}</div>
+      )}
     </ModalWithForm>
   );
 };
