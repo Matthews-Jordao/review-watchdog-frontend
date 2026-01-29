@@ -1,3 +1,17 @@
+/* Sign in button specific size */
+.modal__submit.login-modal__signin-btn {
+  width: 272px;
+  min-width: 272px;
+  height: 40px;
+  padding: 0;
+}
+/* Register button specific size */
+.modal__submit.login-modal__register-btn {
+  width: 272px;
+  min-width: 272px;
+  height: 40px;
+  padding: 0;
+}
 /* LoginModal specific styles */
 .modal_type_login .modal__title {
   color: var(--primary-navy, #0F1F38);
@@ -9,7 +23,7 @@
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 0px;
 }
 
 .login-modal__register-btn,
@@ -20,7 +34,12 @@
 
 /* Checkbox Group */
 .login-modal__checkbox-group {
-  margin: 4px 0;
+  margin: 4px 0 0 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  /* Align with modal input fields */
 }
 
 .login-modal__checkbox-label {
@@ -29,6 +48,9 @@
   gap: 8px;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
+  text-align: left;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .login-modal__checkbox {
@@ -43,21 +65,12 @@
 .login-modal__checkbox-text {
   flex: 1;
   line-height: 1.4;
-}
-
-.login-modal__label-text {
-  font-weight: 500;
-  font-size: 16px;
-  color: var(--text-primary, #0F1F38);
-  margin-bottom: 4px;
-}
-
-.login-modal__description-text {
+  font-family: 'Inter', sans-serif;
   font-weight: 400;
+  color: #1E1E1E;
   font-size: 14px;
-  color: var(--text-secondary, #666);
-  line-height: 1.3;
 }
+
 
 /* Modal content adjustments */
 .modal_type_login .modal__content {

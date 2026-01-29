@@ -39,15 +39,18 @@ function ModalWithForm({
     >
       <div className="modal__content">
         <div className="modal__glass-shine"></div>
-        <button
-          className="modal__close"
-          type="button"
-          aria-label="Close"
-          onClick={onClose}
-        >
-          &#10005;
-        </button>
-        <h2 className="modal__title">{title}</h2>
+        <div className="modal__header-row" style={{display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between', marginBottom: 28}}>
+          <h2 className="modal__title" style={{margin: 0}}>{title}</h2>
+          <button
+            className="modal__close"
+            type="button"
+            aria-label="Close"
+            onClick={onClose}
+            style={{marginLeft: 16}}
+          >
+            &#10005;
+          </button>
+        </div>
         <form className="modal__form" name={name} onSubmit={onSubmit}>
           {children}
           {footerContent || (

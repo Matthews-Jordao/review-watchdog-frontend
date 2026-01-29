@@ -5,6 +5,7 @@ import './RegisterModal.css';
 
 const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false }) => {
   const [formData, setFormData] = useState({
+    username: '',
     email: '',
     password: '',
     acceptTerms: false,
@@ -13,7 +14,7 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
   const [loading, setLoading] = useState(false);
   const [generalError, setGeneralError] = useState('');
 
-  const isFormValid = formData.email.trim() && formData.password.trim();
+  const isFormValid = formData.username.trim() && formData.email.trim() && formData.password.trim();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -31,22 +32,15 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isFormValid) return;
-    onLogin(formData);
-  };
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isFormValid) return;
     setLoading(true);
     setGeneralError('');
     try {
-      // For demo, use a placeholder name or add a name field to the form
-      const name = formData.name || 'New User';
-      await register(name, formData.email, formData.password);
-      onRegister({ email: formData.email });
+      await register(formData.username, formData.email, formData.password);
+      onRegister({ username: formData.username, email: formData.email });
       resetForm();
     } catch (err) {
       setGeneralError(err.message || 'Registration failed');
@@ -57,6 +51,7 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
 
   const resetForm = () => {
     setFormData({
+      username: '',
       email: '',
       password: '',
       acceptTerms: false,
@@ -70,35 +65,50 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
   };
 
   const footerContent = (
-    <div className="register-modal__buttons">
+    <div className="login-modal__buttons">
       <button 
-        type="button" 
-        className="modal__submit register-modal__register-btn" 
+        type="submit" 
+        className="modal__submit" 
         disabled={!isFormValid || loading}
-        onClick={handleRegister}
       >
-        {loading ? 'Creating...' : 'Register'}
+        {loading ? 'Signing up...' : 'Sign Up'}
       </button>
       <button
         type="button"
-        className="modal__submit register-modal__signin-btn"
-        disabled={!isFormValid || loading}
-        onClick={handleSubmit}
+        className="modal__redirect-btn"
+        onClick={onLogin}
       >
-        {loading ? 'Signing in...' : 'Sign in'}
+        Already have an account? Sign In
       </button>
     </div>
   );
 
   return (
     <ModalWithForm
-      title="Sign in or Create an Account"
+      title="Sign Up To Review Watchdog"
       name="register"
       isOpen={isOpen}
       onClose={handleClose}
-      onSubmit={() => {}} // Handled by individual buttons
+      onSubmit={handleSubmit}
       footerContent={footerContent}
     >
+      <div className="modal__input-group">
+        <label className="modal__label" htmlFor="register-username">
+          Username
+        </label>
+        <input
+          className="modal__input"
+          id="register-username"
+          name="username"
+          type="text"
+          value={formData.username}
+          onChange={handleChange}
+          placeholder="Value"
+          required
+        />
+        {errors.username && <span className="modal__error">{errors.username}</span>}
+      </div>
+
       <div className="modal__input-group">
         <label className="modal__label" htmlFor="register-email">
           Email
@@ -133,19 +143,16 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
         {errors.password && <span className="modal__error">{errors.password}</span>}
       </div>
 
-      <div className="register-modal__checkbox-group">
-        <label className="register-modal__checkbox-label">
+      <div className="login-modal__checkbox-group">
+        <label className="login-modal__checkbox-label">
           <input
             type="checkbox"
             name="acceptTerms"
             checked={formData.acceptTerms}
             onChange={handleChange}
-            className="register-modal__checkbox"
+            className="login-modal__checkbox"
           />
-          <span className="register-modal__checkbox-text">
-            <div className="register-modal__label-text">Label</div>
-            <div className="register-modal__description-text">Description</div>
-          </span>
+          <span className="login-modal__checkbox-text">Keep Me Logged In</span>
         </label>
       </div>
 

@@ -47,12 +47,16 @@ function Header({ user, setUser }) {
   const handleLogin = (formData) => {
     // Set the user in App.jsx when login is successful
     setUser({
-      name: 'Fake User',
-      email: formData.email,
-      avatar: undefined // or provide a default avatar if needed
+      name: 'Demo User',
+      email: 'demo@test.com',
+      avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=3B7CD0&color=fff'
     });
-    // Persist a fake token so user stays logged in
-    localStorage.setItem('token', 'a_fake_token');
+    // Only persist a fake token if 'Keep Me Logged In' is checked
+    if (formData.acceptTerms) {
+      localStorage.setItem('token', 'a_fake_token');
+    } else {
+      localStorage.removeItem('token');
+    }
     handleCloseModals();
   };
 

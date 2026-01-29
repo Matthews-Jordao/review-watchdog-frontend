@@ -38,15 +38,14 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
     setGeneralError('');
     try {
       const response = await authorize(formData.email, formData.password);
-      // Pass user info up (simulate what backend would return)
       onLogin({
-        name: 'Fake User',
-        email: formData.email,
-        avatar: undefined
+        name: 'Demo User',
+        email: 'demo@test.com',
+        avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=3B7CD0&color=fff'
       });
       resetForm();
     } catch (err) {
-      setGeneralError(err.message || 'Login failed');
+      setGeneralError(err.message || 'Invalid credentials. Use demo@test.com / password123');
     } finally {
       setLoading(false);
     }
@@ -74,21 +73,23 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
 
   const footerContent = (
     <div className="login-modal__buttons">
-      <button 
-        type="button" 
-        className="modal__submit login-modal__register-btn" 
-        disabled={!isFormValid || loading}
-        onClick={handleRegister}
-      >
-        {loading ? 'Creating...' : 'Register'}
-      </button>
+      {generalError && (
+        <div className="modal__error" style={{ marginBottom: 12, textAlign: 'center', width: '100%' }}>{generalError}</div>
+      )}
       <button
         type="button"
-        className="modal__submit login-modal__signin-btn"
+        className="modal__submit"
         disabled={!isFormValid || loading}
         onClick={handleSubmit}
       >
-        {loading ? 'Signing in...' : 'Sign in'}
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
+      <button
+        type="button"
+        className="modal__redirect-btn"
+        onClick={onRegister}
+      >
+        Don’t Have an Account? Sign Up
       </button>
     </div>
   );
@@ -99,7 +100,7 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
       name="login"
       isOpen={isOpen}
       onClose={handleClose}
-      onSubmit={() => {}} // Handled by individual buttons
+      onSubmit={e => e.preventDefault()} // Prevent default form submit
       footerContent={footerContent}
     >
       <div className="modal__input-group">
@@ -145,16 +146,11 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
             onChange={handleChange}
             className="login-modal__checkbox"
           />
-          <span className="login-modal__checkbox-text">
-            <div className="login-modal__label-text">Label</div>
-            <div className="login-modal__description-text">Description</div>
-          </span>
+          <span className="login-modal__checkbox-text">Keep Me Logged In</span>
         </label>
       </div>
 
-      {generalError && (
-        <div className="modal__error" style={{ marginBottom: 12 }}>{generalError}</div>
-      )}
+      {/* Error now shown in footerContent below buttons */}
     </ModalWithForm>
   );
 };

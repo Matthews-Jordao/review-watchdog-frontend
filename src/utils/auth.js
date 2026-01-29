@@ -3,8 +3,9 @@
 // Demo user credentials (email: demo@test.com, password: password123)
 const DEMO_USER = {
   _id: 'fake-id',
-  name: 'Fake User',
-  email: 'demo@test.com'
+  name: 'Demo User',
+  email: 'demo@test.com',
+  avatar: 'https://ui-avatars.com/api/?name=Demo+User&background=3B7CD0&color=fff'
 };
 const DEMO_PASSWORD = 'password123';
 const FAKE_TOKEN = 'a_fake_token';
@@ -13,10 +14,12 @@ const FAKE_TOKEN = 'a_fake_token';
 export const authorize = (email, password) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (email === DEMO_USER.email && password === DEMO_PASSWORD) {
-        resolve({ token: FAKE_TOKEN });
-      } else {
+      if (email !== DEMO_USER.email) {
+        reject(new Error('No user with that email exists'));
+      } else if (password !== DEMO_PASSWORD) {
         reject(new Error('Invalid credentials'));
+      } else {
+        resolve({ token: FAKE_TOKEN });
       }
     }, 900);
   });
