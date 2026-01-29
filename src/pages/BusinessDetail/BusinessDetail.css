@@ -1,3 +1,15 @@
+/* Centered and grayed out message for no more reviews */
+.business-detail__no-more-reviews {
+  text-align: center;
+  color: #888;
+  margin: 1.5rem 0;
+  font-size: 1.1rem;
+}
+.business-detail__review-platform--border {
+  border: 1.5px solid #d1d5db;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
 /* ===================================
    BUSINESS DETAIL PAGE
    ================================= */
@@ -42,8 +54,12 @@
 
 /* Element: Loading state */
 .business-detail__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
   text-align: center;
-  padding: var(--space-12) 0;
 }
 
 .business-detail__loading p {
@@ -638,7 +654,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.25); /* Match ModalWithForm overlay */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -646,12 +662,17 @@
 }
 
 .business-detail__filter-modal {
-  background: white;
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 24px 24px;
+  width: 400px;
+  max-width: 90vw;
+  max-height: 80vh;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-weight: 600;
 }
 
 .business-detail__filter-modal h3 {
@@ -693,56 +714,78 @@
 
 .business-detail__filter-buttons {
   display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-6);
+  gap: 12px;
+  margin-top: 32px;
+  width: 100%;
 }
 
 .business-detail__filter-apply {
-  background: #3B82F6; /* Blue-500 */
-  color: white;
+  align-self: flex-start;
+  border-radius: 8px;
   border: none;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-base);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+  background: #2C2C2C;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
   cursor: pointer;
-  flex: 1;
+  padding: 8px 24px;
+  min-width: 100px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .business-detail__filter-apply:hover {
-  background: #2563EB; /* Blue-600 */
+  background: #1a1a1a;
+  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .business-detail__filter-clear {
-  background: #EF4444; /* Red-500 */
-  color: white;
+  align-self: flex-start;
+  border-radius: 8px;
   border: none;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-base);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+  background: #EF4444;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
   cursor: pointer;
-  flex: 1;
+  padding: 8px 24px;
+  min-width: 100px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .business-detail__filter-clear:hover {
-  background: #DC2626; /* Red-600 */
+  background: #DC2626;
+  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 .business-detail__filter-cancel {
-  background: #F3F4F6; /* Gray-100 */
+  align-self: flex-start;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  background: #F3F4F6;
   color: var(--text-primary);
-  border: 1px solid #D1D5DB; /* Gray-300 */
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-base);
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
   cursor: pointer;
-  flex: 1;
+  padding: 8px 24px;
+  min-width: 100px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .business-detail__filter-cancel:hover {
-  background: #E5E7EB; /* Gray-200 */
+  background: #E5E7EB;
+  transform: translateY(-1px);
+  transform: translateY(0);
 }
 
 /* Rating-only reviews */

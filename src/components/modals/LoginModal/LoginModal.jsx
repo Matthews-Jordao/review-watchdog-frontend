@@ -38,7 +38,12 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
     setGeneralError('');
     try {
       const response = await authorize(formData.email, formData.password);
-      onLogin({ email: formData.email }); // Pass minimal user data up
+      // Pass user info up (simulate what backend would return)
+      onLogin({
+        name: 'Fake User',
+        email: formData.email,
+        avatar: undefined
+      });
       resetForm();
     } catch (err) {
       setGeneralError(err.message || 'Login failed');

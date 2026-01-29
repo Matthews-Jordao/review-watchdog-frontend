@@ -4,7 +4,7 @@ import searchIcon from '../../assets/images/searchicon.svg';
 import googleLogo from '../../assets/images/google-ar21.svg';
 import facebookLogo from '../../assets/images/facebook-ar21.svg';
 import yelpLogo from '../../assets/images/yelp-ar21.svg';
-import { searchBusinesses } from '../../services/googlePlacesApi';
+import { searchBusinesses } from '../../utils/googlePlacesApi';
 
 function Hero({ onSearchResults, onSearchStateChange }) {
   const [searchQuery, setSearchQuery] = useState('');

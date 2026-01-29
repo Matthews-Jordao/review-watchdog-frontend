@@ -1,6 +1,6 @@
-// src/utils/auth.js
-// Simulated authentication API for Stage 1
+// Simulated authentication API for testing login/register without a real backend.
 
+// Demo user credentials (email: demo@test.com, password: password123)
 const DEMO_USER = {
   _id: 'fake-id',
   name: 'Fake User',
@@ -9,6 +9,7 @@ const DEMO_USER = {
 const DEMO_PASSWORD = 'password123';
 const FAKE_TOKEN = 'a_fake_token';
 
+// Simulate login: resolves with a token if credentials match demo user
 export const authorize = (email, password) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -21,6 +22,7 @@ export const authorize = (email, password) => {
   });
 };
 
+// Simulate token check: resolves with user data if token is valid
 export const checkToken = (token) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -33,6 +35,7 @@ export const checkToken = (token) => {
   });
 };
 
+// Simulate registration: checks for required fields and duplicate email
 export const register = (name, email, password) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

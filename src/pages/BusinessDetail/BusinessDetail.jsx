@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './BusinessDetail.css';
-import { getBusinessDetails } from '../../services/googlePlacesApi';
+import { getBusinessDetails } from '../../utils/googlePlacesApi';
 import { fetchBusinessReviews, fetchMoreReviews } from '../../services/outscraperApi';
 import googleIcon from '../../assets/images/google circle icon.svg';
 import facebookIcon from '../../assets/images/facebook circle icon.svg';
@@ -14,18 +14,36 @@ function BusinessDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [displayedReviews, setDisplayedReviews] = useState([]);
-  const [reviewsToShow, setReviewsToShow] = useState(5);
+  const reviewsToShow = 5;
   const [isLoadingMoreReviews, setIsLoadingMoreReviews] = useState(false);
   const [outscraperError, setOutscraperError] = useState(null);
   const [hasMoreReviews, setHasMoreReviews] = useState(true);
-  const [lastPaginationId, setLastPaginationId] = useState(null);
-  const [reviewsLoaded, setReviewsLoaded] = useState(0);
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [ratingFilter, setRatingFilter] = useState('');
+  // Track how many Outscraper reviews have been fetched so far
+  const [outscraperFetched, setOutscraperFetched] = useState(0);
+
+  // Helper: count reviews by platform
+  const getPlatformReviewCount = (platform) => {
+    if (!business || !Array.isArray(business.reviews)) return 0;
+    return business.reviews.filter(r => r.platform === platform).length;
+  };
+  // Helper: get total review count for each platform
+  const googleTotal = business?.reviewCount || getPlatformReviewCount('google');
+  const facebookTotal = getPlatformReviewCount('facebook');
+  const yelpTotal = getPlatformReviewCount('yelp');
+  // Displayed reviews by platform
+  const displayedGoogle = displayedReviews.filter(r => r.platform === 'google').length;
+  const displayedFacebook = displayedReviews.filter(r => r.platform === 'facebook').length;
+  const displayedYelp = displayedReviews.filter(r => r.platform === 'yelp').length;
+  // All reviews loaded?
+  const allGoogleLoaded = displayedGoogle >= googleTotal;
+  const allFacebookLoaded = displayedFacebook >= facebookTotal;
+  const allYelpLoaded = displayedYelp >= yelpTotal;
+  const allReviewsLoaded = allGoogleLoaded && allFacebookLoaded && allYelpLoaded;
   const [dateFilter, setDateFilter] = useState('');
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [isFilterActive, setIsFilterActive] = useState(false);
-  const [totalFetchedReviews, setTotalFetchedReviews] = useState(0);
 
   useEffect(() => {
     const fetchBusinessDetails = async () => {
@@ -34,16 +52,20 @@ function BusinessDetail() {
         setLoading(false);
         return;
       }
-
       try {
         const businessData = await getBusinessDetails(placeId);
         setBusiness(businessData);
-        
-        // Note: Google Places API gives us ~5 "most helpful" reviews, not newest
-        // Sort them by time, but they may not represent the most recent reviews
-        if (businessData.reviews && businessData.reviews.length > 0) {
-          const sortedReviews = businessData.reviews.sort((a, b) => b.time - a.time);
-          setDisplayedReviews(sortedReviews.slice(0, reviewsToShow));
+        // Fetch the first 5 reviews from Outscraper for this business
+        const outscraperData = await fetchBusinessReviews(placeId, 5, 0, 'newest');
+        if (outscraperData.reviews && outscraperData.reviews.length > 0) {
+          setDisplayedReviews(outscraperData.reviews);
+          setOutscraperFetched(outscraperData.reviews.length);
+          // Set hasMoreReviews if there are more reviews to load
+          const total = outscraperData.totalReviews || googleTotal;
+          setHasMoreReviews(outscraperData.reviews.length < total);
+        } else {
+          setDisplayedReviews([]);
+          setHasMoreReviews(false);
         }
       } catch (err) {
         console.error('Error fetching business details:', err);
@@ -52,17 +74,10 @@ function BusinessDetail() {
         setLoading(false);
       }
     };
-
     fetchBusinessDetails();
   }, [placeId]);
 
-  useEffect(() => {
-    if (business?.reviews) {
-      // Only set initial reviews once when business data loads
-      const sortedReviews = business.reviews.sort((a, b) => b.time - a.time);
-      setDisplayedReviews(sortedReviews.slice(0, reviewsToShow));
-    }
-  }, [business?.reviews]); // Removed reviewsToShow dependency
+  // No need to set initial reviews from Google API anymore
 
   // ESC key support for filter modal
   useEffect(() => {
@@ -139,59 +154,41 @@ function BusinessDetail() {
 
   const handleLoadMoreReviews = async () => {
     if (!business?.placeId || isLoadingMoreReviews) return;
-    
     setIsLoadingMoreReviews(true);
     setOutscraperError(null);
-    
     try {
-      // Calculate how many reviews to skip based on what we've already loaded
-      const reviewsToSkip = reviewsLoaded;
-      const batchSize = 25;
-      
-      console.log('Requesting reviews batch:', {
-        reviewsToSkip,
-        batchSize,
-        totalLoadedSoFar: reviewsLoaded,
-        currentDisplayed: displayedReviews.length
-      });
-      
-      // Fetch next batch of 25 reviews
-      const outscraperData = await fetchBusinessReviews(business.placeId, batchSize, reviewsToSkip, 'newest');
-      
-      console.log('Load more reviews result:', {
-        reviewsReceived: outscraperData.reviews?.length || 0,
-        totalReviews: outscraperData.totalReviews,
-        hasMore: outscraperData.hasMore,
-        reviewsToSkip,
-        batchSize
-      });
-      
-      if (outscraperData.reviews && outscraperData.reviews.length > 0) {
-        if (reviewsLoaded === 0) {
-          // First load: Replace Google's limited "most helpful" reviews
-          setDisplayedReviews(outscraperData.reviews);
-        } else {
-          // Subsequent loads: Append new reviews to existing ones
-          setDisplayedReviews(prevDisplayed => [...prevDisplayed, ...outscraperData.reviews]);
-        }
-        
-        // Update counters
-        setReviewsLoaded(prevLoaded => prevLoaded + outscraperData.reviews.length);
-        
-        // Check if there are more reviews (conservative approach)
-        const stillHasMore = outscraperData.reviews.length === batchSize && 
-                            (outscraperData.totalReviews === 0 || reviewsLoaded + outscraperData.reviews.length < outscraperData.totalReviews);
-        setHasMoreReviews(stillHasMore);
+      let reviewsToSkip, batchSize;
+      if (outscraperFetched === 0) {
+        // First load: replace initial 5 with 5 from Outscraper
+        reviewsToSkip = 0;
+        batchSize = 5;
       } else {
-        // No more reviews available
+        // Subsequent loads: add 3 more
+        reviewsToSkip = outscraperFetched;
+        batchSize = 3;
+      }
+      const outscraperData = await fetchBusinessReviews(business.placeId, batchSize, reviewsToSkip, 'newest');
+      if (outscraperData.reviews && outscraperData.reviews.length > 0) {
+        if (outscraperFetched === 0) {
+          setDisplayedReviews(outscraperData.reviews);
+          setOutscraperFetched(outscraperData.reviews.length);
+        } else {
+          setDisplayedReviews(prevDisplayed => {
+            const updated = [...prevDisplayed, ...outscraperData.reviews];
+            return updated;
+          });
+          setOutscraperFetched(prev => prev + outscraperData.reviews.length);
+        }
+        // Check if there are more reviews to load
+        const total = outscraperData.totalReviews || googleTotal;
+        const newDisplayed = (outscraperFetched === 0 ? outscraperData.reviews.length : outscraperFetched + outscraperData.reviews.length);
+        setHasMoreReviews(newDisplayed < total);
+      } else {
         setHasMoreReviews(false);
-        console.log('No reviews received - reached end of available reviews');
-        setOutscraperError('No more reviews available for this business.');
+        setOutscraperError('No more reviews.');
       }
     } catch (error) {
       console.error('Error loading more reviews:', error);
-      
-      // Handle specific payment error
       if (error.message && error.message.includes('402')) {
         setOutscraperError('⚠️ Payment Required: The review service needs account verification. Please check your Outscraper account billing to load more reviews.');
         setHasMoreReviews(false);
@@ -360,11 +357,10 @@ function BusinessDetail() {
                 </span>
               </div>
               <span className="business-detail__review-count">
-                {business.reviewCount || 0} reviews
+                {business.reviewCount || getPlatformReviewCount('google')} reviews
               </span>
             </div>
           </div>
-          
           <div className="business-detail__platform business-detail__platform--inactive">
             <div className="business-detail__platform-header">
               <div className="business-detail__platform-row">
@@ -381,11 +377,10 @@ function BusinessDetail() {
                 </span>
               </div>
               <span className="business-detail__review-count business-detail__review-count--grayed">
-                0 reviews
+                {getPlatformReviewCount('facebook')} reviews
               </span>
             </div>
           </div>
-          
           <div className="business-detail__platform business-detail__platform--inactive">
             <div className="business-detail__platform-header">
               <div className="business-detail__platform-row">
@@ -402,7 +397,7 @@ function BusinessDetail() {
                 </span>
               </div>
               <span className="business-detail__review-count business-detail__review-count--grayed">
-                0 reviews
+                {getPlatformReviewCount('yelp')} reviews
               </span>
             </div>
           </div>
@@ -445,10 +440,12 @@ function BusinessDetail() {
                     <div className="business-detail__review-header">
                       <div className="business-detail__review-author">
                         <div className="business-detail__review-avatar">
-                          {review.authorName.charAt(0).toUpperCase()}
+                          {typeof review.authorName === 'string' && review.authorName.length > 0
+                            ? review.authorName.charAt(0).toUpperCase()
+                            : '?'}
                         </div>
                         <div className="business-detail__review-info">
-                          <h4 className="business-detail__review-name">{review.authorName}</h4>
+                          <h4 className="business-detail__review-name">{typeof review.authorName === 'string' && review.authorName.length > 0 ? review.authorName : 'Anonymous'}</h4>
                           <div className="business-detail__review-rating">
                             {renderStars(review.rating, true)}
                             <span className="business-detail__review-date">
@@ -458,9 +455,17 @@ function BusinessDetail() {
                         </div>
                       </div>
                       <img 
-                        src={googleIcon} 
-                        alt="Google Review" 
-                        className="business-detail__review-platform"
+                        src={
+                          review.platform === 'google' ? googleIcon :
+                          review.platform === 'facebook' ? facebookIcon :
+                          review.platform === 'yelp' ? yelpIcon : googleIcon
+                        }
+                        alt={
+                          review.platform === 'google' ? 'Google Review' :
+                          review.platform === 'facebook' ? 'Facebook Review' :
+                          review.platform === 'yelp' ? 'Yelp Review' : 'Review'
+                        }
+                        className="business-detail__review-platform business-detail__review-platform--border"
                       />
                     </div>
                     {review.text ? (
@@ -476,7 +481,7 @@ function BusinessDetail() {
               </div>
               
               {/* Show load more based on total review count and availability */}
-              {business.reviewCount && hasMoreReviews && business.reviewCount > displayedReviews.length && (
+              {!allReviewsLoaded && hasMoreReviews && (
                 <div className="business-detail__load-more">
                   <button 
                     className="business-detail__load-btn"
@@ -493,6 +498,9 @@ function BusinessDetail() {
                     )}
                   </button>
                 </div>
+              )}
+              {(allReviewsLoaded || !hasMoreReviews) && (
+                <div className="business-detail__no-more-reviews">No more reviews.</div>
               )}
               {outscraperError && (
                 <div className="business-detail__error-message">{outscraperError}</div>

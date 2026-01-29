@@ -4,7 +4,7 @@ import './Header.css';
 import logo from '../../assets/images/logo.svg';
 import { LoginModal, RegisterModal } from '../modals';
 
-function Header() {
+function Header({ user, setUser }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -45,8 +45,14 @@ function Header() {
   };
 
   const handleLogin = (formData) => {
-    console.log('Login:', formData);
-    // Handle login logic here
+    // Set the user in App.jsx when login is successful
+    setUser({
+      name: 'Fake User',
+      email: formData.email,
+      avatar: undefined // or provide a default avatar if needed
+    });
+    // Persist a fake token so user stays logged in
+    localStorage.setItem('token', 'a_fake_token');
     handleCloseModals();
   };
 
@@ -80,9 +86,29 @@ function Header() {
           
           {/* Desktop Navigation */}
           <nav className="header__nav header__nav--desktop">
-            <a href="#businesses" className="header__nav-link">For Businesses</a>
-            <button onClick={handleLoginClick} className="header__nav-link">Log in</button>
-            <button onClick={handleSignUpClick} className="header__cta-btn">Sign Up</button>
+            {user ? (
+              <div className="header__user-info" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <span className="header__username" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 500 }}>
+                  {user.name}
+                </span>
+                <span className="header__profile-pic" title="Profile" style={{ display: 'flex', alignItems: 'center' }}>
+                  <button
+                    className="header__profile-pic-btn"
+                    style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer' }}
+                    onClick={() => window.location.href = '/user'}
+                    title="Go to profile"
+                  >
+                    <img src={user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name)} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%' }} />
+                  </button>
+                </span>
+              </div>
+            ) : (
+              <>
+                <a href="#businesses" className="header__nav-link">For Businesses</a>
+                <button onClick={handleLoginClick} className="header__nav-link">Log in</button>
+                <button onClick={handleSignUpClick} className="header__cta-btn">Sign Up</button>
+              </>
+            )}
           </nav>
 
           {/* Mobile Hamburger Button */}

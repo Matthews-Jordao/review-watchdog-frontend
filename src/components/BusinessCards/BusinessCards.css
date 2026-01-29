@@ -1,3 +1,7 @@
+.business-card__bookmark--active svg {
+  fill: #FFD600 !important;
+  stroke: #FFD600 !important;
+}
 /* ===================================
    BUSINESS CARDS COMPONENT
    ================================= */

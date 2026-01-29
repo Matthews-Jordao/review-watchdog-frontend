@@ -1,31 +1,44 @@
 // Outscraper API integration service for fetching comprehensive reviews
 // This service provides access to all reviews for a business, not just the limited set from Google Places API
 
+
 const API_KEY = import.meta.env.VITE_OUTSCRAPER_API_KEY;
 const BASE_URL = 'https://api.outscraper.cloud';
+import { mockBusinesses } from '../utils/mockBusinesses';
 
 /**
- * Fetch reviews for a business using Outscraper API
+ * Fetch reviews for a business using Outscraper API or mock data
  * @param {string} placeId - Google Places Place ID
- * @param {number} limit - Number of reviews to fetch (default: 25)
- * @param {number} skip - Number of reviews to skip (for pagination)
- * @param {string} sort - Sort order: 'newest', 'most_relevant', 'highest_rating', 'lowest_rating'
- * @returns {Promise} Promise that resolves to review data
+ * @param {number} limit - Number of reviews to fetch
+ * @param {number} skip - Number of reviews to skip
+ * @param {string} sort - Sort order ("newest" or "oldest")
+ * @returns {Promise<{reviews: Array, totalReviews: number, hasMore: boolean}>}
  */
-export const fetchBusinessReviews = async (placeId, limit = 25, skip = 0, sort = 'newest') => {
-  if (!placeId) {
-    throw new Error('Place ID is required');
+export async function fetchBusinessReviews(placeId, limit = 25, skip = 0, sort = 'newest') {
+  if (!API_KEY) {
+    // Use mock data if no API key
+    const business = mockBusinesses.find(biz => biz.place_id === placeId || biz.id === placeId);
+    if (!business || !business.reviews) {
+      return { reviews: [], totalReviews: 0, hasMore: false };
+    }
+    let reviews = [...business.reviews];
+    if (sort === 'newest') {
+      reviews = reviews.reverse();
+    }
+    const pagedReviews = reviews.slice(skip, skip + limit);
+    return {
+      reviews: pagedReviews,
+      totalReviews: reviews.length,
+      hasMore: skip + limit < reviews.length
+    };
   }
-
+  // Use real Outscraper API if API key is present
   try {
     const url = new URL(`${BASE_URL}/google-maps-reviews`);
     url.searchParams.append('query', placeId);
-    // Request enough reviews to cover skip + limit, then we'll slice on our end
     url.searchParams.append('reviewsLimit', (skip + limit).toString());
     url.searchParams.append('sort', sort);
     url.searchParams.append('async', 'false');
-
-    console.log('Fetching reviews from Outscraper:', url.toString());
 
     const response = await fetch(url.toString(), {
       method: 'GET',
@@ -42,16 +55,25 @@ export const fetchBusinessReviews = async (placeId, limit = 25, skip = 0, sort =
     }
 
     const data = await response.json();
-    console.log('Outscraper API response:', data);
-
-    // Transform the response to match our review format
+    // Transform Outscraper response to our review format
     return transformOutscraperResponse(data, limit, skip);
-
   } catch (error) {
     console.error('Error fetching reviews from Outscraper:', error);
     throw error;
   }
-};
+}
+
+/**
+ * Fetch more reviews (pagination)
+ * @param {string} placeId
+ * @param {number} limit
+ * @param {number} skip
+ * @param {string} sort
+ * @returns {Promise<{reviews: Array, totalReviews: number, hasMore: boolean}>}
+ */
+export async function fetchMoreReviews(placeId, limit = 25, skip = 0, sort = 'newest') {
+  return fetchBusinessReviews(placeId, limit, skip, sort);
+}
 
 /**
  * Transform Outscraper response to our review format
@@ -117,9 +139,3 @@ function transformOutscraperResponse(data, limit = 25, skip = 0) {
   };
 }
 
-// Legacy alias function for backward compatibility
-export const fetchMoreReviews = async (placeId, skipCount) => {
-  // Convert old skip-based pagination to new pagination system
-  // For now, just fetch next batch without using skipCount
-  return fetchBusinessReviews(placeId, 20);
-};

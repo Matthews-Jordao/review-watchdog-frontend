@@ -8,9 +8,9 @@ import AudienceCards from '../../components/AudienceCards/AudienceCards';
 import TestimonialsCarousel from '../../components/TestimonialsCarousel/TestimonialsCarousel';
 import WhyChooseSection from '../../components/WhyChooseSection/WhyChooseSection';
 import BottomCTA from '../../components/BottomCTA/BottomCTA';
-import { searchBusinesses } from '../../services/googlePlacesApi';
+import { searchBusinesses } from '../../utils/googlePlacesApi';
 
-function HomePage() {
+function HomePage({ bookmarkedIds, setBookmarkedIds }) {
   const location = useLocation();
   const [searchResults, setSearchResults] = useState([]);
   const [hasMore, setHasMore] = useState(false);
@@ -22,6 +22,10 @@ function HomePage() {
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
+  // Save all businesses globally for bookmarks (simulate global business list)
+  useEffect(() => {
+    window.allBusinesses = searchResults;
+  }, [searchResults]);
   // Handle anchor scrolling when component loads or hash changes
   useEffect(() => {
     if (location.hash) {
@@ -137,6 +141,8 @@ function HomePage() {
                 hasMore={hasMore}
                 isLoadingMore={isLoadingMore}
                 isExiting={isExiting}
+                bookmarkedIds={bookmarkedIds}
+                setBookmarkedIds={setBookmarkedIds}
               />
             </div>
           ) : null}

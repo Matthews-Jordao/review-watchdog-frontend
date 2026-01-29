@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BusinessCards.css';
 import googleIcon from '../../assets/images/google circle icon.svg';
 import facebookIcon from '../../assets/images/facebook circle icon.svg';
 import yelpIcon from '../../assets/images/yelp circle icon.svg';
 
-function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiting }) {
+function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiting, bookmarkedIds = [], setBookmarkedIds, hideHeader = false }) {
+  // Save full business info for bookmarks
+  const handleBookmarkClick = (businessId) => {
+    setBookmarkedIds((prev) => {
+      let updated;
+      if (prev.includes(businessId)) {
+        updated = prev.filter((id) => id !== businessId);
+        // Remove from localStorage full info
+        const all = JSON.parse(localStorage.getItem('bookmarkedBusinessInfo') || '[]');
+        const filtered = all.filter(biz => biz.id !== businessId && biz.place_id !== businessId);
+        localStorage.setItem('bookmarkedBusinessInfo', JSON.stringify(filtered));
+      } else {
+        updated = [...prev, businessId];
+        // Save full info
+        const business = businesses.find(biz => biz.id === businessId || biz.place_id === businessId);
+        if (business) {
+          const all = JSON.parse(localStorage.getItem('bookmarkedBusinessInfo') || '[]');
+          // Avoid duplicates
+          if (!all.some(biz => biz.id === businessId || biz.place_id === businessId)) {
+            all.push(business);
+            localStorage.setItem('bookmarkedBusinessInfo', JSON.stringify(all));
+          }
+        }
+      }
+      return updated;
+    });
+  };
   const navigate = useNavigate();
   
   const renderStars = (rating, filled = true) => {
@@ -55,11 +81,12 @@ function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiti
       isExiting ? 'business-cards--exiting' : ''
     }`}>
       <div className="container">
-        <div className="business-cards__header">
-          <h2 className="business-cards__title">Search Results</h2>
-          <p className="business-cards__count">{businesses.length} businesses found</p>
-        </div>
-        
+        {!hideHeader && (
+          <div className="business-cards__header">
+            <h2 className="business-cards__title">Search Results</h2>
+            <p className="business-cards__count">{businesses.length} businesses found</p>
+          </div>
+        )}
         <div className="business-cards__list">
           {businesses.map((business) => (
             <article key={business.id} className="business-card">
@@ -79,8 +106,12 @@ function BusinessCards({ businesses, onLoadMore, hasMore, isLoadingMore, isExiti
                       <h3 className="business-card__name">{business.name}</h3>
                       <p className="business-card__address">{business.address}</p>
                     </div>
-                    <button className="business-card__bookmark">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <button
+                      className={`business-card__bookmark${bookmarkedIds.includes(business.id) ? ' business-card__bookmark--active' : ''}`}
+                      onClick={() => handleBookmarkClick(business.id)}
+                      aria-label={bookmarkedIds.includes(business.id) ? 'Remove bookmark' : 'Add bookmark'}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill={bookmarkedIds.includes(business.id) ? '#FFD600' : 'none'} stroke={bookmarkedIds.includes(business.id) ? '#FFD600' : 'currentColor'} strokeWidth="2">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>
                       </svg>
                     </button>

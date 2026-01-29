@@ -1,6 +1,7 @@
 // Google Places API integration service
 // Updated to use Places API (New) for better performance and features
 
+import { mockBusinesses } from './mockBusinesses';
 const API_KEY = import.meta.env.VITE_GOOGLE_PLACES_API_KEY;
 const BASE_URL = 'https://places.googleapis.com/v1';
 
@@ -11,9 +12,19 @@ const BASE_URL = 'https://places.googleapis.com/v1';
  * @returns {Promise} Promise that resolves to formatted business search results
  */
 export const searchBusinesses = async (query, location = '') => {
+  // If no API key, use mock data
   if (!API_KEY) {
-    console.error('Google Places API key is not configured');
-    throw new Error('Google Places API key is not configured');
+    console.warn('Google Places API key is not configured. Using mock businesses.');
+    // Filter mock businesses by query (simple case-insensitive match)
+    const filtered = mockBusinesses.filter(biz =>
+      biz.name.toLowerCase().includes(query.toLowerCase()) ||
+      biz.category.toLowerCase().includes(query.toLowerCase())
+    );
+    return {
+      businesses: filtered,
+      hasMore: false,
+      totalCount: filtered.length
+    };
   }
 
   if (!query.trim()) {
@@ -26,7 +37,6 @@ export const searchBusinesses = async (query, location = '') => {
 
   try {
     const searchQuery = location ? `${query} in ${location}` : query;
-    
     const response = await fetch(`${BASE_URL}/places:searchText`, {
       method: 'POST',
       headers: {
@@ -49,16 +59,13 @@ export const searchBusinesses = async (query, location = '') => {
 
     const data = await response.json();
     console.log('Google Places API response:', data); // Debug logging
-    
     // Transform Google Places data to our business card format
     const businesses = data.places ? data.places.map(transformPlaceToBusinessCard) : [];
-    
     return {
       businesses,
       hasMore: businesses.length >= 12,
       totalCount: businesses.length
     };
-
   } catch (error) {
     console.error('Error searching businesses:', error);
     throw new Error('Failed to search businesses. Please check your API key configuration.');
@@ -70,9 +77,51 @@ export const searchBusinesses = async (query, location = '') => {
  * @param {string} placeId - Google Places Place ID
  * @returns {Promise} Promise that resolves to detailed business info
  */
+
 export const getBusinessDetails = async (placeId) => {
+  // Fallback to mock data if API key is missing
   if (!API_KEY) {
-    throw new Error('Google Places API key is not configured');
+    const mock = mockBusinesses.find(biz => biz.place_id === placeId || biz.id === placeId);
+    if (mock) {
+      // Adapt mock business to detail format
+      return {
+        id: mock.place_id || mock.id,
+        name: mock.name,
+        address: mock.address,
+        rating: mock.rating,
+        reviewCount: mock.userRatingCount || mock.reviewCount || 0,
+        image: mock.image,
+        website: mock.website,
+        phoneNumber: mock.phoneNumber || null,
+        businessStatus: mock.businessStatus || 'OPERATIONAL',
+        hours: mock.hours || null,
+        reviews: (mock.reviews || []).map((r, i) => ({
+          id: `review-${i}`,
+          authorName: r.author || r.authorName || 'Anonymous User',
+          rating: r.rating || 0,
+          text: r.text || '',
+          time: Date.now() - (i * 7 * 24 * 60 * 60 * 1000),
+          relativeTimeDescription: `${i + 1} week${i === 0 ? '' : 's'} ago`,
+          authorPhotoUrl: null,
+          platform: r.platform || 'mock'
+        })),
+        placeId: mock.place_id || mock.id
+      };
+    }
+    // If not found, fallback to generic sample
+    return {
+      id: placeId,
+      name: 'Sample Business',
+      address: '123 Main Street, Anytown, ST 12345',
+      rating: 4.5,
+      reviewCount: 120,
+      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop',
+      website: 'https://example.com',
+      phoneNumber: '+1 (555) 123-4567',
+      hours: null,
+      reviews: [],
+      placeId: placeId
+    };
   }
 
   try {
@@ -93,7 +142,34 @@ export const getBusinessDetails = async (placeId) => {
 
   } catch (error) {
     console.error('Error getting business details:', error);
-    // Fallback to mock data for development
+    // Fallback to mock data if API call fails
+    const mock = mockBusinesses.find(biz => biz.place_id === placeId || biz.id === placeId);
+    if (mock) {
+      return {
+        id: mock.place_id || mock.id,
+        name: mock.name,
+        address: mock.address,
+        rating: mock.rating,
+        reviewCount: mock.userRatingCount || mock.reviewCount || 0,
+        image: mock.image,
+        website: mock.website,
+        phoneNumber: mock.phoneNumber || null,
+        businessStatus: mock.businessStatus || 'OPERATIONAL',
+        hours: mock.hours || null,
+        reviews: (mock.reviews || []).map((r, i) => ({
+          id: `review-${i}`,
+          authorName: r.author || r.authorName || 'Anonymous User',
+          rating: r.rating || 0,
+          text: r.text || '',
+          time: Date.now() - (i * 7 * 24 * 60 * 60 * 1000),
+          relativeTimeDescription: `${i + 1} week${i === 0 ? '' : 's'} ago`,
+          authorPhotoUrl: null,
+          platform: 'mock'
+        })),
+        placeId: mock.place_id || mock.id
+      };
+    }
+    // If not found, fallback to generic sample
     return {
       id: placeId,
       name: 'Sample Business',
@@ -103,48 +179,9 @@ export const getBusinessDetails = async (placeId) => {
       image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop',
       website: 'https://example.com',
       phoneNumber: '+1 (555) 123-4567',
-      hours: {
-        periods: [
-          { open: { day: 1, time: '0900' }, close: { day: 1, time: '1800' } },
-          { open: { day: 2, time: '0900' }, close: { day: 2, time: '1800' } },
-          { open: { day: 3, time: '0900' }, close: { day: 3, time: '1800' } },
-          { open: { day: 4, time: '0900' }, close: { day: 4, time: '1800' } },
-          { open: { day: 5, time: '0900' }, close: { day: 5, time: '1800' } },
-          { open: { day: 6, time: '1000' }, close: { day: 6, time: '1600' } }
-        ]
-      },
-      reviews: [
-        {
-          id: '1',
-          authorName: 'Jessica Rabbit',
-          rating: 5,
-          text: 'Amazing service and great atmosphere! The staff was very friendly and accommodating. Would definitely recommend to anyone looking for quality service.',
-          time: Date.now() - (7 * 24 * 60 * 60 * 1000), // 1 week ago
-          relativeTimeDescription: '1 week ago',
-          authorPhotoUrl: null,
-          platform: 'google'
-        },
-        {
-          id: '2',
-          authorName: 'John Smith',
-          rating: 4,
-          text: 'Good experience overall. Quick service and reasonable prices. Will definitely be coming back.',
-          time: Date.now() - (14 * 24 * 60 * 60 * 1000), // 2 weeks ago
-          relativeTimeDescription: '2 weeks ago',
-          authorPhotoUrl: null,
-          platform: 'google'
-        },
-        {
-          id: '3',
-          authorName: 'Mary Johnson',
-          rating: 5,
-          text: 'Exceptional quality and service! Exceeded all my expectations. Highly recommended for anyone in the area.',
-          time: Date.now() - (21 * 24 * 60 * 60 * 1000), // 3 weeks ago
-          relativeTimeDescription: '3 weeks ago',
-          authorPhotoUrl: null,
-          platform: 'google'
-        }
-      ]
+      hours: null,
+      reviews: [],
+      placeId: placeId
     };
   }
 };
