@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage/HomePage';
 import AboutPage from './pages/AboutPage/AboutPage';
 import BusinessDetail from './pages/BusinessDetail/BusinessDetail';
 import UserPage from './pages/UserPage/UserPage';
+import ForBusinesses from './pages/ForBusinesses/ForBusinesses';
 
 // Import components
 import Header from './components/Header/Header';
@@ -81,6 +82,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/business/:placeId" element={<BusinessDetail />} />
             <Route path="/user" element={<UserPage user={user} bookmarkedBusinesses={bookmarkedBusinesses} bookmarkedIds={bookmarkedIds} setBookmarkedIds={setBookmarkedIds} onLogout={handleLogout} />} />
+            <Route path="/for-businesses" element={<ForBusinesses />} />
           </Routes>
         </main>
         <Footer />
