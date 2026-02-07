@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { mockBusinesses } from './utils/mockBusinesses';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './styles/global.css';
 import { checkToken } from './utils/auth';
 
