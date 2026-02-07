@@ -3,7 +3,21 @@ import './AudienceCards.css';
 import forThePeopleIcon from '../../assets/images/ForThePeople Icon.svg';
 import forTheBusinessIcon from '../../assets/images/ForTheBusiness icon.svg';
 
-function AudienceCards() {
+function AudienceCards({ onLoginClick, onSignUpClick }) {
+  const handleSignUpClick = (e) => {
+    e.preventDefault();
+    if (onSignUpClick) {
+      onSignUpClick();
+    }
+  };
+
+  const handleSignInClick = (e) => {
+    e.preventDefault();
+    if (onLoginClick) {
+      onLoginClick();
+    }
+  };
+
   return (
     <section className="audience-cards">
       <div className="container">
@@ -23,7 +37,7 @@ function AudienceCards() {
                 Create an account to keep track of reviews, saved businesses, and everything you want to revisit.
               </p>
             </div>
-            <button className="audience-cards__card-btn">Sign Up</button>
+            <button className="audience-cards__card-btn" onClick={handleSignUpClick}>Sign Up</button>
           </div>
           
           <div className="audience-cards__card">
@@ -41,7 +55,7 @@ function AudienceCards() {
                 Sign in to monitor all your reviews and manage every reply from one centralized dashboard.
               </p>
             </div>
-            <button className="audience-cards__card-btn">Sign In</button>
+            <button className="audience-cards__card-btn" onClick={handleSignInClick}>Sign In</button>
           </div>
         </div>
       </div>

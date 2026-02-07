@@ -8,6 +8,7 @@ import AudienceCards from '../../components/AudienceCards/AudienceCards';
 import TestimonialsCarousel from '../../components/TestimonialsCarousel/TestimonialsCarousel';
 import WhyChooseSection from '../../components/WhyChooseSection/WhyChooseSection';
 import BottomCTA from '../../components/BottomCTA/BottomCTA';
+import { LoginModal, RegisterModal } from '../../components/modals';
 import { searchBusinesses } from '../../utils/googlePlacesApi';
 
 function HomePage({ bookmarkedIds, setBookmarkedIds }) {
@@ -21,11 +22,49 @@ function HomePage({ bookmarkedIds, setBookmarkedIds }) {
   const [hasResults, setHasResults] = useState(false);
   const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   // Save all businesses globally for bookmarks (simulate global business list)
   useEffect(() => {
     window.allBusinesses = searchResults;
   }, [searchResults]);
+
+  // Modal handlers
+  const handleLoginClick = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const handleSignUpClick = () => {
+    setIsRegisterModalOpen(true);
+  };
+
+  const handleCloseModals = () => {
+    setIsLoginModalOpen(false);
+    setIsRegisterModalOpen(false);
+  };
+
+  const handleSwitchToRegister = () => {
+    setIsLoginModalOpen(false);
+    setIsRegisterModalOpen(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setIsRegisterModalOpen(false);
+    setIsLoginModalOpen(true);
+  };
+
+  const handleLogin = (formData) => {
+    // Handle login logic here
+    console.log('Login:', formData);
+    handleCloseModals();
+  };
+
+  const handleRegister = (formData) => {
+    // Handle registration logic here
+    console.log('Register:', formData);
+    handleCloseModals();
+  };
   // Handle anchor scrolling when component loads or hash changes
   useEffect(() => {
     if (location.hash) {
@@ -163,7 +202,10 @@ function HomePage({ bookmarkedIds, setBookmarkedIds }) {
         isSearching || hasSearched ? 'homepage__original-content--pushed-down' : ''
       }`}>
         <ReviewCardsRow />
-        <AudienceCards />
+        <AudienceCards 
+          onLoginClick={handleLoginClick}
+          onSignUpClick={handleSignUpClick}
+        />
         <div id="testimonials">
           <TestimonialsCarousel />
         </div>
@@ -172,6 +214,22 @@ function HomePage({ bookmarkedIds, setBookmarkedIds }) {
         </div>
         <BottomCTA />
       </div>
+      
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onLogin={handleLogin}
+        onRegister={handleSwitchToRegister}
+        onClose={handleCloseModals}
+      />
+      
+      {/* Register Modal */}
+      <RegisterModal 
+        isOpen={isRegisterModalOpen}
+        onRegister={handleRegister}
+        onLogin={handleSwitchToLogin}
+        onClose={handleCloseModals}
+      />
     </div>
   );
 }
