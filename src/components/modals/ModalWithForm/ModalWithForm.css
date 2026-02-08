@@ -236,6 +236,25 @@
   transform: none;
 }
 
+.modal__submit:disabled {
+  background: #E5E7EB;
+  color: #9CA3AF;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Modal label styling */
+.modal__label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary, #0F1F38);
+  margin-bottom: 8px;
+  align-self: flex-start;
+}
+
 /* Error message styling for form validation */
 .modal__error {
   color: var(--error-red, #EF4444);

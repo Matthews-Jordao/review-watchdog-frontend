@@ -12,6 +12,18 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar || '');
 
+  // URL validation function
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  const isButtonDisabled = !avatarUrl.trim() || !isValidUrl(avatarUrl.trim());
+
   if (!user) {
     return (
       <div className="user-page container">
@@ -62,22 +74,24 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
         title="Change Profile Photo"
         name="change-avatar"
         buttonText="Save"
+        disabled={isButtonDisabled}
         onSubmit={e => {
           e.preventDefault();
-          // Here you would update the avatar in user state (lift to App if needed)
-          setIsAvatarModalOpen(false);
+          if (!isButtonDisabled) {
+            // Here you would update the avatar in user state (lift to App if needed)
+            setIsAvatarModalOpen(false);
+          }
         }}
       >
-        <label htmlFor="avatar-url" style={{ display: 'block', marginBottom: 8 }}>Profile Image URL</label>
+        <label htmlFor="avatar-url" className="modal__label">Profile Image URL</label>
         <input
           id="avatar-url"
           type="url"
           value={avatarUrl}
           onChange={e => setAvatarUrl(e.target.value)}
           placeholder="https://example.com/my-photo.jpg"
-          style={{ width: '100%', padding: 8, borderRadius: 4, border: '1px solid #ccc', marginBottom: 16 }}
+          className="modal__input"
         />
-        <button type="submit" className="modal__submit">Save</button>
       </ModalWithForm>
       <h2 className="user-page__subtitle">Bookmarked Businesses</h2>
       <div className="user-page__bookmarks">
