@@ -186,7 +186,7 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
                           </button>
                           <button 
                             className="business-card__btn business-card__btn--secondary"
-                            onClick={() => window.location.href = `/business/${business.place_id}`}
+                            onClick={() => navigate(`/business/${business.place_id}`)}
                           >
                             View All Reviews
                           </button>

@@ -99,7 +99,7 @@ function Header({ user, setUser }) {
                   <button
                     className="header__profile-pic-btn"
                     style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer' }}
-                    onClick={() => window.location.href = '/user'}
+                    onClick={() => navigate('/user')}
                     title="Go to profile"
                   >
                     <img src={user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name)} alt="Profile" style={{ width: 32, height: 32, borderRadius: '50%' }} />
