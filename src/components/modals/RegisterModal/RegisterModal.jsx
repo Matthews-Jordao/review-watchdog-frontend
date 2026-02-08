@@ -103,7 +103,7 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
           type="text"
           value={formData.username}
           onChange={handleChange}
-          placeholder="Value"
+          placeholder="Username"
           required
         />
         {errors.username && <span className="modal__error">{errors.username}</span>}
@@ -120,7 +120,7 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
           type="email"
           value={formData.email}
           onChange={handleChange}
-          placeholder="Value"
+          placeholder="Email"
           required
         />
         {errors.email && <span className="modal__error">{errors.email}</span>}
@@ -137,7 +137,7 @@ const RegisterModal = ({ isOpen, onRegister, onLogin, onClose, isLoading = false
           type="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="Value"
+          placeholder="Password"
           required
         />
         {errors.password && <span className="modal__error">{errors.password}</span>}

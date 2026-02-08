@@ -11,6 +11,8 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
   const navigate = useNavigate();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar || '');
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [businessToDelete, setBusinessToDelete] = useState(null);
 
   // URL validation function
   const isValidUrl = (string) => {
@@ -73,8 +75,6 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
         onClose={() => setIsAvatarModalOpen(false)}
         title="Change Profile Photo"
         name="change-avatar"
-        buttonText="Save"
-        disabled={isButtonDisabled}
         onSubmit={e => {
           e.preventDefault();
           if (!isButtonDisabled) {
@@ -82,6 +82,33 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
             setIsAvatarModalOpen(false);
           }
         }}
+        footerContent={
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '272px' }}>
+            <button 
+              type="submit" 
+              className="modal__submit" 
+              disabled={isButtonDisabled}
+              style={{
+                background: isButtonDisabled ? 'rgba(59, 124, 208, 0.5)' : '#3B7CD0',
+                cursor: 'default'
+              }}
+            >
+              Save
+            </button>
+            <button 
+              type="button" 
+              className="modal__submit" 
+              style={{ 
+                background: '#E5E7EB', 
+                color: '#6B7280',
+                cursor: 'default'
+              }}
+              onClick={() => setIsAvatarModalOpen(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        }
       >
         <label htmlFor="avatar-url" className="modal__label">Profile Image URL</label>
         <input
@@ -92,6 +119,70 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
           placeholder="https://example.com/my-photo.jpg"
           className="modal__input"
         />
+      </ModalWithForm>
+      
+      {/* Delete Confirmation Modal */}
+      <ModalWithForm
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setBusinessToDelete(null);
+        }}
+        title="Remove Bookmark"
+        name="delete-bookmark"
+        onSubmit={e => {
+          e.preventDefault();
+          if (businessToDelete) {
+            setBookmarkedIds((prev) => prev.filter((id) => id !== businessToDelete.id));
+            setIsDeleteModalOpen(false);
+            setBusinessToDelete(null);
+          }
+        }}
+        footerContent={
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '272px', alignItems: 'center' }}>
+            <button 
+              type="submit" 
+              className="modal__submit" 
+              style={{
+                background: '#EF4444',
+                color: '#ffffff',
+                cursor: 'default',
+                width: '272px'
+              }}
+            >
+              Remove
+            </button>
+            <button 
+              type="button" 
+              className="modal__submit" 
+              style={{ 
+                background: '#E5E7EB', 
+                color: '#6B7280',
+                cursor: 'default',
+                width: '272px'
+              }}
+              onClick={() => {
+                setIsDeleteModalOpen(false);
+                setBusinessToDelete(null);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        }
+      >
+        <div style={{ 
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '16px',
+          fontWeight: '500',
+          lineHeight: '1.5',
+          color: '#0F1F38',
+          textAlign: 'center',
+          margin: '0 0 24px 0',
+          padding: '0 16px'
+        }}>
+          Are you sure you want to remove <strong style={{ fontWeight: '600' }}>{businessToDelete?.name}</strong> from your bookmarks?
+        </div>
       </ModalWithForm>
       <h2 className="user-page__subtitle">Bookmarked Businesses</h2>
       <div className="user-page__bookmarks">
@@ -118,11 +209,14 @@ function UserPage({ user, bookmarkedBusinesses = [], bookmarkedIds = [], setBook
                       <button
                         className={`business-card__bookmark${bookmarkedIds.includes(business.id) ? ' business-card__bookmark--active' : ''}`}
                         onClick={() => {
-                          setBookmarkedIds((prev) =>
-                            prev.includes(business.id)
-                              ? prev.filter((id) => id !== business.id)
-                              : [...prev, business.id]
-                          );
+                          if (bookmarkedIds.includes(business.id)) {
+                            // Show confirmation modal for removal
+                            setBusinessToDelete(business);
+                            setIsDeleteModalOpen(true);
+                          } else {
+                            // Add bookmark immediately
+                            setBookmarkedIds((prev) => [...prev, business.id]);
+                          }
                         }}
                         aria-label={bookmarkedIds.includes(business.id) ? 'Remove bookmark' : 'Add bookmark'}
                       >

@@ -66,3 +66,7 @@ Both APIs require billing setup, so keep that in mind. Google gives you some fre
 This was a fun project to work on because it actually solves a real problem I had. The biggest challenge was working around Google's review limitations and figuring out the right way to paginate through large review datasets without making the UI slow.
 
 The live demo on GitHub Pages shows the full functionality, though you'd need your own API keys to search for different businesses.
+
+## Project Pitch Video
+
+Check out [this video](https://www.loom.com/share/0ed3de55ea22433b8f41db49e2cbda15), where I describe my project and some challenges I faced while building it.

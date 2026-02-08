@@ -114,7 +114,7 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
           type="email"
           value={formData.email}
           onChange={handleChange}
-          placeholder="Value"
+          placeholder="Email"
           required
         />
         {errors.email && <span className="modal__error">{errors.email}</span>}
@@ -131,7 +131,7 @@ const LoginModal = ({ isOpen, onLogin, onRegister, onClose, isLoading = false })
           type="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="Value"
+          placeholder="Password"
           required
         />
         {errors.password && <span className="modal__error">{errors.password}</span>}
