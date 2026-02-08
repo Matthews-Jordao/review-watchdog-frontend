@@ -1,0 +1,234 @@
+/* ===================================
+   FOOTER COMPONENT
+   ================================= */
+
+/* Block: Main footer container */
+.footer {
+  background: #0F1F38; /* Navy background matching design theme */
+  color: var(--text-white);
+  padding: 60px 0 20px 0;
+  margin-top: auto; /* Push footer to bottom */
+}
+
+/* Element: Main content grid container */
+.footer__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+/* Element: Individual footer sections */
+.footer__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3); /* Reduced from space-4 */
+}
+
+/* Modifier: Company info section */
+.footer__section--company {
+  max-width: 300px;
+}
+
+/* Element: Footer logo container */
+.footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: var(--space-3);
+  text-decoration: none; /* Remove link underline */
+  color: inherit; /* Inherit color */
+  transition: opacity 0.3s ease;
+}
+
+/* State: Footer logo hover effect */
+.footer__logo:hover {
+  opacity: 0.8; /* Subtle hover effect */
+}
+
+/* Element: Footer logo icon */
+.footer__logo-icon {
+  width: 45px;
+  height: 45px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Element: Footer logo text container */
+.footer__logo-text {
+  font-weight: var(--font-extrabold);
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+/* Element: Review text part */
+.footer__logo-text--review {
+  color: var(--primary-yellow);
+}
+
+/* Element: Watchdog text part */
+.footer__logo-text--watchdog {
+  color: var(--text-white);
+}
+
+/* Element: Company description text */
+.footer__description {
+  color: #B8C4CE; /* Lighter gray for description */
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  margin: 0;
+}
+
+/* Element: Section headings */
+.footer__heading {
+  color: var(--text-white);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-2) 0; /* Reduced from space-3 */
+  font-family: 'Inter', sans-serif;
+}
+
+/* Element: Navigation list container - semantic container only */
+
+/* Element: Navigation list */
+.footer__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1); /* Reduced from space-2 for tighter spacing */
+}
+
+/* Element: Navigation list item */
+.footer__nav-item {
+  /* No specific styling - semantic container */
+}
+
+/* Element: Navigation links */
+.footer__nav-link {
+  color: #B8C4CE; /* Lighter gray for links */
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+/* State: Navigation link hover */
+.footer__nav-link:hover {
+  color: #F9C52A; /* Yellow accent on hover */
+}
+
+/* State: Navigation link focus */
+.footer__nav-link:focus {
+  color: #F9C52A;
+  outline: 2px solid #F9C52A;
+  outline-offset: 2px;
+}
+
+/* Element: Contact address container */
+.footer__address {
+  font-style: normal; /* Remove italic from address element */
+}
+
+/* Element: Contact information items */
+.footer__contact-item {
+  margin: 0 0 var(--space-1) 0; /* Reduced from space-2 */
+}
+
+/* Element: Contact links */
+.footer__contact-link {
+  color: #B8C4CE;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+/* State: Contact link hover */
+.footer__contact-link:hover {
+  color: #F9C52A;
+}
+
+/* State: Contact link focus */
+.footer__contact-link:focus {
+  color: #F9C52A;
+  outline: 2px solid #F9C52A;
+  outline-offset: 2px;
+}
+
+/* Element: Bottom copyright section */
+.footer__bottom {
+  border-top: 1px solid #2A3B52; /* Subtle border */
+  padding-top: var(--space-4);
+  text-align: center;
+}
+
+/* Element: Copyright text */
+.footer__copyright {
+  color: #B8C4CE;
+  font-size: var(--text-sm);
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ===================================
+   RESPONSIVE STYLES - TABLET
+   ================================= */
+
+@media (max-width: 1024px) {
+  /* Element: Adjust grid for tablet */
+  .footer__content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+  
+  /* Modifier: Company section spans both columns */
+  .footer__section--company {
+    grid-column: 1 / -1;
+    max-width: 100%;
+    margin-bottom: var(--space-4);
+  }
+}
+
+/* ===================================
+   RESPONSIVE STYLES - MOBILE
+   ================================= */
+
+@media (max-width: 768px) {
+  /* Block: Reduced padding for mobile */
+  .footer {
+    padding: 40px 0 20px 0;
+  }
+  
+  /* Element: Single column layout */
+  .footer__content {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+  
+  /* Modifier: Company section normal span */
+  .footer__section--company {
+    grid-column: 1;
+    margin-bottom: 0;
+  }
+  
+  /* Element: Smaller logo on mobile */
+  .footer__logo-icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  /* Element: Smaller logo text on mobile */
+  .footer__logo-text {
+    font-size: 16px;
+  }
+  
+  /* Element: Center align on mobile */
+  .footer__bottom {
+    text-align: center;
+  }
+}

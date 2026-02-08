@@ -1,0 +1,253 @@
+/* ===================================
+   SEARCH RESULTS COMPONENT
+   ================================= */
+
+/* Block: Main search results container */
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-white);
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+/* Modifier: Loading state */
+.search-results--loading {
+  padding: var(--space-6);
+  text-align: center;
+}
+
+/* Modifier: Error state */
+.search-results--error {
+  padding: var(--space-6);
+  text-align: center;
+}
+
+/* Element: Search results header */
+.search-results__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid #E5E7EB;
+  background: #F9FAFB;
+}
+
+/* Element: Results title */
+.search-results__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* Element: Close button */
+.search-results__close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6B7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+/* State: Close button hover */
+.search-results__close-btn:hover {
+  background: #E5E7EB;
+  color: var(--text-primary);
+}
+
+/* Element: Results list container - semantic container only */
+
+/* Element: Individual result item */
+.search-results__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid #F3F4F6;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* State: Result item hover */
+.search-results__item:hover {
+  background: #F9FAFB;
+}
+
+/* Element: Business information container */
+.search-results__item-info {
+  flex: 1;
+  margin-right: var(--space-3);
+}
+
+/* Element: Business name */
+.search-results__item-name {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  margin: 0 0 var(--space-1) 0;
+  color: var(--text-primary);
+}
+
+/* Element: Business address */
+.search-results__item-address {
+  font-size: var(--text-sm);
+  color: #6B7280;
+  margin: 0 0 var(--space-2) 0;
+}
+
+/* Element: Rating container */
+.search-results__item-rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+/* Element: Rating score */
+.search-results__rating-score {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+}
+
+/* Element: Rating stars container */
+.search-results__rating-stars {
+  display: flex;
+  gap: 1px;
+}
+
+/* Element: Individual star */
+.star {
+  font-size: 12px;
+  color: #D1D5DB;
+}
+
+/* Modifier: Filled star */
+.star--filled {
+  color: #F59E0B;
+}
+
+/* Element: Rating count */
+.search-results__rating-count {
+  font-size: var(--text-xs);
+  color: #6B7280;
+}
+
+/* Element: Price level indicator */
+.search-results__item-price {
+  font-size: var(--text-sm);
+  color: #059669;
+  font-weight: var(--font-medium);
+}
+
+/* Element: Business photo */
+.search-results__item-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Element: Photo image */
+.search-results__item-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Element: Loading spinner container */
+.search-results__spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Element: Loading spinner animation */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #F3F4F6;
+  border-top: 3px solid var(--primary-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation: Spinner rotation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Element: Error message container */
+.search-results__error {
+  color: #DC2626;
+}
+
+/* Element: Error title */
+.search-results__error h3 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--text-lg);
+}
+
+/* Element: Error message */
+.search-results__error p {
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--text-sm);
+}
+
+/* Element: Retry button */
+.search-results__retry-btn {
+  background: var(--primary-blue);
+  color: var(--text-white);
+  border: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 6px;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* State: Retry button hover */
+.search-results__retry-btn:hover {
+  background: #2563EB;
+}
+
+/* ===================================
+   RESPONSIVE STYLES - MOBILE
+   ================================= */
+
+@media (max-width: 768px) {
+  /* Block: Adjusted positioning for mobile */
+  .search-results {
+    max-height: 300px;
+    margin-top: 2px;
+  }
+  
+  /* Element: Smaller item padding */
+  .search-results__item {
+    padding: var(--space-3);
+  }
+  
+  /* Element: Smaller photo on mobile */
+  .search-results__item-photo {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Element: Smaller title */
+  .search-results__title {
+    font-size: var(--text-base);
+  }
+}

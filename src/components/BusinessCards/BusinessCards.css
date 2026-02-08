@@ -1,0 +1,589 @@
+.business-card__bookmark--active svg {
+  fill: #FFD600 !important;
+  stroke: #FFD600 !important;
+}
+/* ===================================
+   BUSINESS CARDS COMPONENT
+   ================================= */
+
+/* Block: Main business cards section */
+.business-cards {
+  padding: var(--space-8) 0;
+  background: var(--bg-white);
+  border-top: 1px solid #E5E7EB;
+  border-bottom: 1px solid #E5E7EB;
+  animation: easeInBusinessCards 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: padding 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+/* Modifier: Business cards exiting state */
+.business-cards--exiting {
+  animation: fadeOutBusinessCards 0.4s ease-out forwards;
+}
+
+/* Element: Section header */
+.business-cards__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+/* Element: Section title */
+.business-cards__title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-2) 0;
+}
+
+/* Element: Results count */
+.business-cards__count {
+  font-size: var(--text-lg);
+  color: #6B7280;
+  margin: 0;
+}
+
+/* Element: Business cards container */
+.business-cards__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* ===================================
+   INDIVIDUAL BUSINESS CARD
+   ================================= */
+
+/* Block: Individual business card */
+.business-card {
+  display: flex;
+  background: var(--bg-white);
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  width: 750px;
+  height: 240px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* State: Business card hover */
+.business-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Element: Business image container */
+.business-card__image {
+  width: 220px;
+  height: calc(100% - 0px);
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-right: var(--space-4);
+}
+
+/* Element: Business image */
+.business-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Element: Card content container */
+.business-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding-left: var(--space-2);
+}
+
+/* Element: Business info section */
+.business-card__info-section {
+  flex: 0 0 auto;
+  margin-bottom: var(--space-3);
+}
+
+/* Element: Bottom section containing reviews and actions */
+.business-card__bottom-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1;
+  gap: var(--space-4);
+}
+
+/* Element: Reviews section */
+.business-card__reviews-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Element: Actions section */
+.business-card__actions-section {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  margin-left: var(--space-2);
+}
+
+/* Element: Card header */
+.business-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+/* Element: Business info container */
+.business-card__info {
+  flex: 1;
+}
+
+/* Element: Business name */
+.business-card__name {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin: 0 0 var(--space-1) 0;
+  line-height: var(--leading-tight);
+}
+
+/* Element: Business address */
+.business-card__address {
+  font-size: var(--text-sm);
+  color: #6B7280;
+  margin: 0;
+  line-height: var(--leading-relaxed);
+}
+
+/* Element: Bookmark button */
+.business-card__bookmark {
+  background: none;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease;
+}
+
+.business-card__bookmark:hover {
+  color: var(--primary-blue);
+}
+
+/* Element: Platforms container */
+.business-card__platforms {
+  margin-bottom: var(--space-3);
+  flex-grow: 0;
+}
+
+/* Element: Individual platform */
+.business-card__platform {
+  margin-bottom: var(--space-2);
+}
+
+/* Element: Platform header with icon and stars */
+.business-card__platform-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Element: Platform icon */
+.business-card__platform-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 1px solid #E5E7EB;
+  border-radius: 50%;
+}
+
+/* Element: Stars container */
+.business-card__stars {
+  display: flex;
+  gap: 1px;
+}
+
+/* Element: Individual star */
+.star {
+  font-size: 20px;
+  color: #D1D5DB;
+}
+
+/* Modifier: Filled star */
+.star--filled {
+  color: #F59E0B;
+}
+
+/* Modifier: Half star */
+.star--half {
+  background: linear-gradient(90deg, #F59E0B 50%, #D1D5DB 50%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Element: Rating text display */
+.business-card__rating-text {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+/* Modifier: Unavailable rating text */
+.business-card__rating-text--unavailable {
+  color: #9CA3AF;
+}
+
+/* Element: Action buttons container */
+.business-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+/* Element: Button rows for 2+1 layout */
+.business-card__button-row {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+/* Element: Action button base */
+.business-card__btn {
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-base);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 110px;
+}
+
+/* Modifier: Primary button */
+.business-card__btn--primary {
+  background: #374151;
+  color: var(--text-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.business-card__btn--primary:hover {
+  background: #1F2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Modifier: Secondary button */
+.business-card__btn--secondary {
+  background: #374151;
+  color: var(--text-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.business-card__btn--secondary:hover {
+  background: #1F2937;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ===================================
+   LOAD MORE SECTION
+   ================================= */
+
+/* Element: Load more container */
+.business-cards__load-more {
+  text-align: center;
+  margin-top: var(--space-8);
+}
+
+/* Element: Load more button */
+.business-cards__load-btn {
+  background: var(--bg-white);
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-base);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 auto;
+}
+
+/* State: Load more button hover */
+.business-cards__load-btn:hover {
+  background: var(--primary-blue);
+  color: var(--text-white);
+}
+
+/* State: Load more button disabled */
+.business-cards__load-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* State: Disabled button hover */
+.business-cards__load-btn:disabled:hover {
+  background: var(--bg-white);
+  color: var(--primary-blue);
+}
+
+/* ===================================
+   LOADING SPINNER
+   ================================= */
+
+/* Block: Loading spinner */
+.circle-preloader {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border: 4px solid #444;
+  border-bottom-color: #888;
+  border-radius: 50%;
+  position: static;
+  animation: spin .75s infinite linear;
+  z-index: var(--z-sticky);
+}
+
+/* Modifier: Small spinner */
+.circle-preloader--small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+  position: static;
+  margin: 0;
+}
+
+/* Animation: Spinner rotation */
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation for business cards appearing */
+@keyframes slideInResults {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth eased-in animation for business cards */
+@keyframes easeInBusinessCards {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  30% {
+    opacity: 0.3;
+    transform: translateY(25px) scale(0.97);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(10px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Fade out animation for business cards */
+@keyframes fadeOutBusinessCards {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.97);
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* ===================================
+   RESPONSIVE STYLES - TABLET
+   ================================= */
+
+@media (max-width: 1024px) {
+  /* Block: Tablet card layout */
+  .business-card {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  /* Element: Adjust image width for tablet */
+  .business-card__image {
+    width: 200px;
+  }
+  
+  /* Element: Tablet platform icons */
+  .business-card__platform-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Element: Tablet star size */
+  .star {
+    font-size: 18px;
+  }
+}
+
+/* ===================================
+   RESPONSIVE STYLES - MOBILE
+   ================================= */
+
+@media (max-width: 768px) {
+  /* Block: Adjusted card layout for mobile */
+  .business-card {
+    flex-direction: column;
+    padding: var(--space-4);
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    margin: 0;
+  }
+  
+  /* Element: Wider image on mobile */
+  .business-card__image {
+    width: 100%;
+    height: 160px;
+    margin-right: 0;
+    margin-bottom: var(--space-3);
+  }
+  
+  /* Element: Mobile header layout */
+  .business-card__header {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  /* Element: Smaller business name on mobile */
+  .business-card__name {
+    font-size: var(--text-lg);
+  }
+  
+  /* Element: Mobile platform icons */
+  .business-card__platform-icon {
+    width: 26px;
+    height: 26px;
+  }
+  
+  /* Element: Mobile star size */
+  .star {
+    font-size: 18px;
+  }
+  
+  /* Element: Mobile platforms container with even spacing */
+  .business-card__platforms {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    margin-bottom: 0;
+    flex: 1;
+  }
+  
+  /* Element: Mobile reviews section takes full height */
+  .business-card__reviews-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+  }
+  
+  /* Element: Reset individual platform margins on mobile */
+  .business-card__platform {
+    margin-bottom: 0;
+  }
+}
+
+/* ===================================
+   RESPONSIVE STYLES - VERY SMALL MOBILE
+   ================================= */
+
+@media (max-width: 480px) {
+  /* Block: Very small screen layout - everything stacks vertically */
+  .business-card__bottom-section {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  
+  /* Element: Center platforms on very small screens */
+  .business-card__platforms {
+    justify-content: center;
+    gap: var(--space-3);
+    width: 100%;
+  }
+  
+  /* Element: Center actions on very small screens */
+  .business-card__actions-section {
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Element: Full width actions on very small screens */
+  .business-card__actions {
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  /* Element: Mobile actions layout */
+  .business-card__actions {
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: auto;
+    width: 100%;
+  }
+  
+  /* Element: Mobile button rows stack vertically */
+  .business-card__button-row {
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+  }
+  
+  /* Element: Responsive buttons on mobile */
+  .business-card__btn {
+    width: 100%;
+    min-width: 0;
+    font-size: var(--text-xs);
+    padding: var(--space-2);
+    max-width: none;
+  }
+}

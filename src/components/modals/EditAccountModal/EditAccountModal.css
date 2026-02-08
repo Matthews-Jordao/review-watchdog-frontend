@@ -1,0 +1,58 @@
+/* EditAccountModal specific styles */
+.modal_type_edit-account .modal__title {
+  color: var(--primary-navy, #0F1F38);
+}
+
+.edit-account-modal__name-row {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.edit-account-modal__name-row .modal__input-group {
+  flex: 1;
+}
+
+.edit-account-modal__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.edit-account-modal__cancel-btn {
+  background: none;
+  border: 2px solid var(--border-light, #E5E7EB);
+  color: var(--text-secondary, #6B7280);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.edit-account-modal__cancel-btn:hover {
+  border-color: var(--text-secondary, #6B7280);
+  color: var(--text-primary, #0F1F38);
+}
+
+@media screen and (max-width: 768px) {
+  .edit-account-modal__name-row {
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .edit-account-modal__actions {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 16px;
+  }
+  
+  .edit-account-modal__cancel-btn,
+  .modal_type_edit-account .modal__submit {
+    width: 100%;
+  }
+}

@@ -1,0 +1,105 @@
+/* ===================================
+   BOTTOM CTA COMPONENT
+   ================================= */
+
+/* Block: Bottom call-to-action section */
+.bottom-cta {
+  padding: 30px 0; /* Reduced padding to fit height constraint */
+  max-height: 110px; /* Maximum height constraint */
+  background: #3B7CD0; /* Blue background as shown in image */
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Element: Content container */
+.bottom-cta__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-8);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Element: CTA title text */
+.bottom-cta__title {
+  color: var(--text-white);
+  font-size: var(--text-2xl); /* Reduced from text-3xl for better fit */
+  font-weight: var(--font-bold);
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Element: CTA button */
+.bottom-cta__btn {
+  background: #F9C52A; /* Yellow background as shown in image */
+  color: #000000; /* Black text for contrast */
+  padding: 12px 24px; /* Reduced from 16px 32px */
+  border: none;
+  border-radius: 25px; /* Slightly smaller radius */
+  font-weight: 600;
+  font-size: var(--text-base); /* Reduced from text-lg */
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* State: Button hover effect */
+.bottom-cta__btn:hover {
+  background: #E6B024; /* Slightly darker yellow on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* State: Button active effect */
+.bottom-cta__btn:active {
+  transform: translateY(0);
+}
+
+/* ===================================
+   RESPONSIVE STYLES - TABLET
+   ================================= */
+
+@media (max-width: 1024px) {
+  /* Element: Smaller title on tablet */
+  .bottom-cta__title {
+    font-size: var(--text-xl);
+  }
+}
+
+/* ===================================
+   RESPONSIVE STYLES - MOBILE
+   ================================= */
+
+@media (max-width: 768px) {
+  /* Block: Reduced padding for mobile while maintaining height constraint */
+  .bottom-cta {
+    padding: 20px 0; /* Further reduced for mobile */
+    max-height: 110px; /* Maintain height constraint on mobile */
+  }
+  
+  /* Element: Stack vertically on mobile */
+  .bottom-cta__content {
+    flex-direction: column;
+    gap: var(--space-4); /* Reduced gap for mobile */
+    max-width: 90%;
+  }
+  
+  /* Element: Smaller title on mobile */
+  .bottom-cta__title {
+    font-size: var(--text-lg); /* Further reduced for mobile */
+  }
+  
+  /* Element: Smaller button on mobile */
+  .bottom-cta__btn {
+    padding: 10px 20px; /* Further reduced for mobile */
+    font-size: var(--text-sm); /* Smaller font on mobile */
+  }
+}
